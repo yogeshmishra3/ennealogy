@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Details</title>
+    <link rel="stylesheet" href="./css/index.css">
+    <style>
+        * {
+            margin: 0;
+            position: relative;
+        }
+
+        /* 
+        .card {
+            width: 100%;
+            height: fit-content;
+            margin: auto;
+            display: flex;
+            font-family: Arial, sans-serif;
+            padding: 10px;
+            background-color: rgb(249, 242, 242);
+        } */
+
+        
+
+        .card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px;
+            margin: 20px auto;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            height: fit-content;
+            background-color: #fff;
+        }
+
+        .card-content {
+            width: 55%;
+            padding-right: 20px;
+        }
+
+        .card-content h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .card-content p {
+            top: 0%;
+            font-size: 18px;
+            line-height: 1.6;
+            color: #555;
+            position: relative;
+
+        }
+
+        .card-image {
+            width: 40%;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+
+
+        .card img,
+        .card video {
+            width: 100%;
+            /* Set the width of the media to 40% */
+            height: 100%;
+            padding: 3px;
+            /* Set height to auto to maintain aspect ratio */
+            margin-right: 10px;
+            /* Space between media and text */
+            border-radius: 10px;
+            /* Optional: Rounded corners for media */
+        }
+
+        .card-content {
+            flex: 1;
+            width: 50%;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            /* Stack title and description vertically */
+            justify-content: flex-start;
+
+            background-color: rgb(249, 242, 242);
+            /* Align items to the start */
+        }
+
+        .card button:hover {
+            opacity: 0.7;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                flex-direction: column;
+            }
+
+            .card-content {
+                width: 100%;
+                padding-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .card-image {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div>
+            <img id="blogImage" alt="Blog Media">
+            <!-- Or video element can be added here if applicable -->
+        </div>
+        <div class="card-content" id="blogDetails"></div>
+    </div>
+
+    <script type="module">
+        // Firebase imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+        // Firebase config
+        const firebaseConfig = {
+            apiKey: "AIzaSyCe9mKD6-clP_Sfip4zSyN1SKUn8G5cays",
+            authDomain: "analogy-64fa2.firebaseapp.com",
+            projectId: "analogy-64fa2",
+            storageBucket: "analogy-64fa2.appspot.com",
+            messagingSenderId: "771776371665",
+            appId: "1:771776371665:web:77c5ce8c1e7017b977def0",
+            measurementId: "G-33XWDFQY89"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Function to fetch blog details using the blog ID from the URL
+        async function displayBlogDetails() {
+            const params = new URLSearchParams(window.location.search);
+            const blogId = params.get('id'); // Get blog ID from the URL
+
+            if (blogId) {
+                const blogDoc = doc(db, 'BlogsFolder', blogId);
+                const blogSnapshot = await getDoc(blogDoc);
+
+                if (blogSnapshot.exists()) {
+                    const blogData = blogSnapshot.data();
+                    const blogDetailsDiv = document.getElementById('blogDetails');
+
+                    // Create blog title, theory, and media (image/video)
+                    const title = document.createElement('h2');
+                    title.textContent = blogData.title;
+
+                    const theory = document.createElement('p');
+                    theory.textContent = blogData.theory;
+
+                    let mediaElement;
+                    if (blogData.mediaUrl) {
+                        if (blogData.mediaType === 'image') {
+                            mediaElement = document.createElement('img');
+                            mediaElement.src = blogData.mediaUrl;
+                        } else if (blogData.mediaType === 'video') {
+                            mediaElement = document.createElement('video');
+                            mediaElement.src = blogData.mediaUrl;
+                            mediaElement.controls = true; // Add controls for video
+                        }
+                    }
+
+                    // Append elements to the blog details section
+                    blogDetailsDiv.appendChild(title);
+                    blogDetailsDiv.appendChild(theory);
+                    if (mediaElement) {
+                        blogDetailsDiv.appendChild(mediaElement);
+                    }
+                } else {
+                    console.log("No such blog!");
+                }
+            } else {
+                console.log("No blog ID found in URL.");
+            }
+        }
+
+        // Call the function when the page loads
+        window.onload = displayBlogDetails;
+    </script>
+</body>
+</html>

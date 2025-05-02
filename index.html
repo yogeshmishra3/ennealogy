@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home</title>
+  <link rel="stylesheet" href="./css/index.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+    }
+
+    body::-webkit-scrollbar {
+      display: block;
+      width: 5px;
+      background: #061621;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background-color: #fff;
+
+      border-radius: 50px;
+    }
+
+    .navbar.scrolled {
+      background-color: #061621;
+      /* Change to desired color on scroll */
+      color: white;
+      /* Adjust text color if needed */
+    }
+
+    .navbar {
+      position: fixed;
+      width: 100%;
+      /* background-color: rgba(255, 255, 255, 0.8); Initial transparent */
+      transition: background-color 0s;
+      /* Smooth transition */
+      z-index: 1000;
+      /* Ensure it stays on top */
+      color: white;
+    }
+
+    .navbar.scrolled {
+      /* background-color: rgba(0, 0, 0, 0.8); Dark background on scroll */
+      color: white;
+      /* Change text color if necessary */
+    }
+
+    .nav-links li a {
+      color: inherit;
+      /* Ensure link color inherits the navbar color */
+      text-decoration: none;
+      padding: 15px;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="logo" style="width: 40%;">
+      <a href="index.html"><img src="/img/logo.png" alt="Logo" /></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="WhatWeServe.html">What we Serve</a></li>
+      <li><a href="project.html">Project</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="internship.html">Internship</a></li>
+    </ul>
+    <div class="burger">
+      <div class="line1"></div>
+      <div class="line2"></div>
+      <div class="line3"></div>
+    </div>
+  </nav>
+
+  <div class="slideshow-container" id="Home">
+    <div class="mySlides fade">
+      <img src="/img/1.jpg" style="width: 100%" />
+      <div class="text">
+        <h1 style="
+              color: #ffffff;
+              font-size: 36px;
+              line-height: 1.4;
+              margin-bottom: 20px;
+              width: 70%
+            ">
+          Hello! This is Ennea. Find the Benefits of Using Embedded
+          Development.
+        </h1>
+        <p>Creative. Clean Design. Let's Start an Awesome Project.</p>
+      </div>
+    </div>
+    <div class="mySlides fade">
+      <img src="/img/2.jpg" style="width: 100%" />
+      <div class="text">
+        <h1 style="
+              color: #ffffff;
+              font-size: 36px;
+              line-height: 1.4;
+              margin-bottom: 20px;
+              width: 70%
+            ">
+          Mobile Development is Addapts to iPhone, iPad Devices.
+        </h1>
+        <p>Website Accessible as Possible on all Devices.</p>
+      </div>
+    </div>
+    <div class="mySlides fade">
+      <img src="img/3.jpg" style="width: 100%" />
+      <div class="text">
+        <h1 style="
+              color: #ffffff;
+              font-size: 36px;
+              line-height: 1.4;
+              margin-bottom: 20px;
+              width: 70%
+            ">
+          Radiofrequency identification (RFID) is a system based on wireless
+          technology.
+        </h1>
+        <p>
+          Rasilant is organized into two vertical units - RFID and System
+          integration.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: none;">
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
+
+  <!-- ======================content======================== -->
+  <div class="content fade-in-section"
+    style="display: flex; flex-wrap: wrap;  margin: 0 auto; padding: 20px; font-family: 'Arial', sans-serif; background-color: #ffffff; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+    <div class="image-section" style="flex: 1; min-width: 300px; padding: 20px;">
+      <img src="./img/robotic arm.jpg" alt="Robotic manufacturing arm"
+        style="width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2); transition: transform 0.3s ease;"
+        onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'" />
+    </div>
+    <div class="text-section"
+      style="flex: 1; min-width: 300px; padding: 30px; display: flex; flex-direction: column; justify-content: center;">
+      <h1
+        style="color: #002533; font-size: 32px; margin-bottom: 20px; border-bottom: 2px solid  #06293b; padding-bottom: 10px; position: relative;">
+        ABOUT</h1>
+      <h3
+        style="color: #002533; font-size: 17px; line-height: 1.6; margin-bottom: 30px; font-weight: 400; text-align: justify;">
+        At Ennea Information Systems, our mission is to become a globally recognized Indian technology company
+        specializing in software and hardware development, M2M solutions, wireless communication, RFID solutions, and
+        electronics devices supply. We are a next-generation technological firm delivering services across diverse
+        sectors
+        such as industrial automation, M2M integration, RFID technology, healthcare management, mining solutions, and
+        automated meter reading. <br /><br />
+        We take pride in designing custom products and solutions, leveraging our expertise in digital hardware, RF,
+        ASIC/FPGA, software, and embedded systems to deliver cutting-edge engineering solutions. Our dedication is to
+        building successful, market-leading products that reflect our commitment to excellence.
+      </h3>
+      <button
+        style="background-color: #06293b; color: white; border: none; padding: 12px 30px; font-size: 16px; cursor: pointer; font-weight: bold; align-self: flex-start; transition: background-color 0.3s ease, transform 0.2s ease; box-shadow: 0 2px 4px rgba(0,0,0,0.2);"
+        onmouseover="this.style.backgroundColor='#061621'; this.style.transform='translateY(-2px)'"
+        onmouseout="this.style.backgroundColor=' #06293b;'; this.style.transform='translateY(0)'">
+        <a href="about.html" style="text-decoration: none; color: white;"> Learn More</a>
+      </button>
+    </div>
+  </div>
+
+  <!-- ========================= Industry Section ======================== -->
+  <section class="industries-section fade-in-section" style="background-color: aliceblue; padding: 50px 0;">
+    <h2>TRANSFORMING GLOBAL INDUSTRIES</h2>
+    <h1>Ennea will transform nine global industries</h1>
+    <p>
+      With a focus on electronics and advanced industrials, Ennea will invest
+      across 34 product categories with sustainable technology powered by
+      clean energy.
+    </p>
+
+    <div class="industries-grid">
+      <!-- Industry Box 1 -->
+      <div class="industry-box">
+        <div class="video-container">
+          <img src="./img/industrtytyy.png" alt="Industry Automation" class="thumbnail" />
+          <video muted loop autoplay>
+            <source src="/video/smart buildings.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="industry-overlay">smart buildings</div>
+      </div>
+
+      <!-- Repeat the same structure for other industry boxes -->
+      <!-- Example for Box 2 -->
+      <div class="industry-box">
+        <div class="video-container">
+          <img src="./img/smart devices.jpg" style="opacity: 10px" alt="Smart Devices" class="thumbnail" />
+          <video muted loop autoplay>
+            <source src="/video/smart device.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="industry-overlay">Smart devices</div>
+      </div>
+
+      <!-- Third Industry Box -->
+      <div class="industry-box">
+        <div class="video-container">
+          <img src="./img/smartr building.jpg" alt="Smart Buildings" class="thumbnail" />
+          <video muted loop autoplay>
+            <source src="/video/smart appliances.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="industry-overlay">smart appliances</div>
+      </div>
+
+      <!-- Fourth Industry Box -->
+      <div class="industry-box">
+        <div class="video-container">
+          <img src="./img/smart appliance.jpg" alt="Smart Appliances" class="thumbnail" />
+          <video muted loop autoplay>
+            <source src="/video/AI infrastructure.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="industry-overlay">AI infrastructure</div>
+      </div>
+
+      <!-- Fifth Industry Box -->
+      <div class="industry-box">
+        <div class="video-container">
+          <img src="./img/nextGen.png" alt="Industry Automation" class="thumbnail" />
+          <video muted loop autoplay>
+            <source src="/video/next gen infrastucture.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="industry-overlay">next gen infrastucture</div>
+      </div>
+
+      <!-- Sixth Industry Box -->
+      <div class="industry-box">
+        <div class="video-container">
+          <img src="./img/semiconductor.jpg" alt="Advanced Industrials" class="thumbnail" />
+          <video muted loop autoplay>
+            <source src="/video/semiconductors.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="industry-overlay">semiconductors</div>
+      </div>
+
+      <!-- Seventh Industry Box -->
+      <div class="industry-box">
+        <div class="video-container">
+          <img src="./img/smartDevice.png" alt="Next Gen Infrastructure" class="thumbnail" />
+          <video muted loop autoplay>
+            <source src="/video/smart device.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="industry-overlay">smart device</div>
+      </div>
+
+      <!-- Eighth Industry Box -->
+      <div class="industry-box">
+        <div class="video-container">
+          <img src="./img/industrtytyy.png" alt="Industry Automation" class="thumbnail" />
+          <video muted loop autoplay>
+            <source src="/video/smart buildings.mp4" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <div class="industry-overlay">Electrification</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sustainability-section fade-in-section">
+    <div class="sustainability-content">
+      <h2>Grow With us</h2>
+      <h1></h1>
+      <p>
+        Equally, as a vibrant people centered company we believe your time at
+        Ennea Information Systems is a unique opportunity to grow with the
+        company, realize your full potential and contribute your talents to
+        creating great products.
+      </p>
+      <!-- <a href="#" class="learn-more">Learn More</a> -->
+    </div>
+  </section>
+
+  <!-- <br /> -->
+  <section class="Careers-at-Alat fade-in-section">
+    <div class="Careers-at-content">
+      <h2>Careers at EnneaLogic</h2>
+      <h1>Be a Part of Innovation</h1>
+      <p>At EnneaLogic, we're building the future of technology—one idea, one solution, one breakthrough at a time.
+        <br>Join a team that values creativity, collaboration, and the courage to push boundaries.
+      </p>
+
+      <br>
+      <br>
+      <button style="border-radius: 10px; background-color: white; color: #00a69c">
+        Join Us
+      </button>
+    </div>
+
+  </section>
+
+  <!-- // Footer Section -->
+
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section follow-us">
+        <h3>Follow Us</h3>
+        <ul class="social-links">
+          <li>
+            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-section about">
+        <h3>About</h3>
+        <ul>
+          <li><a href="#">What is Ennealogic</a></li>
+          <li><a href="#">Board of Directors</a></li>
+          <li><a href="#">Executive Leadership</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section business-units">
+        <h3>Business Units</h3>
+        <ul>
+          <li><a href="#">Overview</a></li>
+          <li><a href="#">Semiconductors</a></li>
+          <li><a href="#">Smart Devices</a></li>
+          <li><a href="#">Smart Buildings</a></li>
+          <li><a href="#">Smart Appliances</a></li>
+          <li><a href="#">Smart Health</a></li>
+          <li><a href="#">Advanced Industrials</a></li>
+          <li><a href="#">Next Gen Infrastructure</a></li>
+          <li><a href="#">Electrification</a></li>
+          <li><a href="#">AI Infrastructure</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section other-links">
+        <!-- <h3>Business Units</h3> -->
+        <ul>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">Terms & Conditions</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Newsroom</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy;2024 Ennealogic | All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <script>
+    // Burger menu functionality
+    const burger = document.querySelector(".burger");
+    const nav = document.querySelector(".nav-links");
+    burger.addEventListener("click", () => {
+      nav.classList.toggle("nav-active");
+      burger.classList.toggle("toggle");
+    });
+
+    // Slideshow functionality
+    let slideIndex = 0;
+    showSlides();
+    function showSlides() {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {
+        slideIndex = 1;
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+      setTimeout(showSlides, 4000); // Change image every 4 seconds
+    }
+
+    // Change navbar color on scroll
+
+    // Change navbar color on scroll
+    window.addEventListener("scroll", function () {
+      const navbar = document.querySelector(".navbar");
+      const scrollPosition = window.scrollY;
+
+      // Define a threshold for when to change the navbar color
+      const changePoint = 50;
+
+      if (scrollPosition > changePoint) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+
+    // Fade-in effect on scroll
+    const faders = document.querySelectorAll('.fade-in-section');
+
+    const appearOptions = {
+      threshold: 0.1,
+      rootMargin: "0px 0px -50px 0px"
+    };
+
+    const appearOnScroll = new IntersectionObserver(function (entries, observer) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+
+    faders.forEach(fader => {
+      appearOnScroll.observe(fader);
+    });
+
+  </script>
+</body>
+
+</html>

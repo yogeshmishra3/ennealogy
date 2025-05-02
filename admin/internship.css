@@ -1,0 +1,170 @@
+/* General styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  color: #333;
+  line-height: 1.6;
+}
+
+a {
+  text-decoration: none;
+  color: #fff;
+}
+
+.main {
+  max-width: 1230px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+}
+
+#back-button {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 10px;
+  font-size: 22px;
+  border-radius: 5px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  width: 110px;
+  justify-content: center;
+  transition: background-color 0.3s ease;
+  margin: 10px;
+}
+
+#back-button:hover {
+  background-color: #c0392b; /* Darker red on hover */
+}
+
+#back-button i {
+  margin: 0; /* No margin around the icon */
+}
+
+li a:hover {
+  background-color: #4CAF50;
+}
+
+/* Internship block styles */
+#internshipBlock {
+  text-align: center;
+}
+
+#internshipBlock h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 28px;
+}
+
+/* Table styles */
+table {
+  width: 90%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+table th,
+table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+  font-size: 16px;
+}
+
+table th {
+  background-color: #4CAF50;
+  color: #fff;
+}
+
+table td a {
+  color: #4CAF50;
+  font-weight: bold;
+}
+
+table td a:hover {
+  color: #4CAF50;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Responsive styles */
+@media (max-width: 1024px) {
+  .main {
+    width: 95%;
+  }
+
+  table {
+    width: 100%;
+  }
+}
+
+@media (max-width: 768px) {
+  table th,
+  table td {
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  li a {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+
+  #internshipBlock h2 {
+    font-size: 24px;
+  }
+
+  .main{
+    margin-left: 20px;
+    width: 1000%;
+    overflow-x:visible;
+    padding-right: 50px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main{
+    margin-left: 20px;
+    width: 300%;
+    overflow-x:visible;
+    padding-right: 50px;
+  }
+
+  #back-button {
+    font-size: 18px;
+    padding: 8px;
+    width: 90px;
+  }
+
+  table {
+    font-size: 10px;
+  }
+
+  table th,
+  table td {
+    padding: 5px;
+  }
+
+  table th {
+    font-size: 14px;
+  }
+
+  #internshipBlock h2 {
+    font-size: 20px;
+  }
+
+  .main {
+    padding: 10px;
+  }
+}

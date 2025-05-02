@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="DemoIndex.css">
+</head>
+
+<body>
+    <div id="sidebar">
+        <div class="menu-icon" onclick="toggleMenu()">
+            &#9776; <!-- Hamburger icon -->
+        </div>
+        <ul class="nav-links">
+            <li><a href="#" id="insertImageLink">Insert Image</a></li>
+            <li><a href="#" id="insertVideoLink">Insert Video</a></li>
+            <li><a href="#" id="writeBlogLink">Write Blog</a></li>
+            <li><a href="Internship.html" id="viewappdetails">Internship</a></li>
+        </ul>
+    </div>
+    <button onclick="logout()" id="logoutbtn">Logout</button>
+    <!-- Modal Structure -->
+    <div id="blogModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <div id="modalMediaContainer"></div>
+            <h2 id="modalTitle"></h2>
+            <p id="modalTheory"></p>
+            <div class="action-buttons">
+                <button id="editBlogButton">Edit Blog</button>
+                <button id="deleteBlogButton">Delete Blog</button>
+            </div>
+        </div>
+    </div>
+
+
+    </div>
+
+    <div id="content-area">
+        <!-- Dynamic content will be loaded here -->
+    </div>
+
+    <script>
+        // Logout function
+        function logout() {
+            localStorage.removeItem("loggedIn");
+            window.location.href = "index.html"; // Redirect to login page
+        }
+    </script>
+
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Check if user is logged in
+        window.onload = function () {
+            const isLoggedIn = localStorage.getItem("loggedIn");
+            if (isLoggedIn !== "true") {
+                window.location.href = "index.html"; // Redirect if not logged in
+            }
+        };
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getDatabase, get, child } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
+        import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+        // Firebase config and initialization
+        const firebaseConfig = {
+            apiKey: "AIzaSyCe9mKD6-clP_Sfip4zSyN1SKUn8G5cays",
+            authDomain: "analogy-64fa2.firebaseapp.com",
+            projectId: "analogy-64fa2",
+            storageBucket: "analogy-64fa2.appspot.com",
+            messagingSenderId: "771776371665",
+            appId: "1:771776371665:web:77c5ce8c1e7017b977def0",
+            measurementId: "G-33XWDFQY89"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const storage = getStorage(app);
+        const db = getFirestore(app);
+        const database = getDatabase(app); // Initialize the Realtime Database
+
+
+
+        // Function to load HTML content into the content area and reattach JS listeners
+        function loadContent(url, callback) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('content-area').innerHTML = html;
+
+                    // Call the callback function to initialize JS after loading content
+                    if (callback) {
+                        callback();  // Re-initialize event listeners and Firebase SDK
+                    }
+                })
+                .catch(error => {
+                    console.log('Error loading content:', error);
+                });
+        }
+
+        // Load "Insert Image" content by default on page load
+        window.onload = function () {
+            const isLoggedIn = localStorage.getItem("loggedIn");
+
+            // If not logged in, redirect to login page
+            if (isLoggedIn !== "true") {
+                window.location.href = "login.html"; // Redirect to login if not logged in
+            } else {
+                // User is signed in, continue with loading content
+                loadContent('imageUpload.html', initializeImageUpload);  // Load image upload content on page load
+
+                // Set up event listeners for the sidebar links
+                document.getElementById('insertImageLink').addEventListener('click', function () {
+                    loadContent('imageUpload.html', initializeImageUpload);  // Re-initialize image upload JS
+                });
+
+                document.getElementById('insertVideoLink').addEventListener('click', function () {
+                    loadContent('VideoUpload.html', initializeVideoUpload);  // Re-initialize video upload JS
+                });
+
+                document.getElementById('writeBlogLink').addEventListener('click', function () {
+                    loadContent('BlogUpload.html', initializeBlogUpload);  // Re-initialize blog upload JS
+                });
+
+                // document.getElementById('viewappdetails').addEventListener('click', function () {
+                //     loadContent('Internship.html');  // Load internship details
+                // });
+
+                // Function to initialize image upload functionality
+              function initializeImageUpload() {
+                    const loader = document.getElementById('loader');
+                    const customPopup = document.getElementById('customPopup');
+                    const popupMessage = document.getElementById('popupMessage');
+                    const closePopupBtn = document.getElementById('closePopupBtn');
+                    const closePopupIcon = document.querySelector('.close-popup');
+
+                    // Function to show popup with a message
+                    function showPopup(message) {
+                        popupMessage.textContent = message;
+                        customPopup.style.display = 'block';
+                    }
+
+                    // Close popup on button click or icon click
+                    closePopupBtn.onclick = closePopupIcon.onclick = function () {
+                        customPopup.style.display = 'none';
+                    };
+
+
+                    // Attach event listeners for image upload after loading content
+                    document.getElementById('uploadImageForm').addEventListener('submit', async function (event) {
+                        event.preventDefault();
+                        loader.style.display = 'block'; // Show loader
+
+                        const file = document.getElementById('imageUpload').files[0];
+                        const caption = document.getElementById('imageCaption').value;
+
+                        if (!file) {
+                            showPopup('Please select an image file to upload.');
+                            loader.style.display = 'none'; // Hide loader if no file
+                            return;
+                        }
+
+
+                        const imageRef = ref(storage, 'imagesGallery/' + file.name);
+
+                        try {
+                            // Upload the image file
+                            await uploadBytes(imageRef, file);
+                            const imageUrl = await getDownloadURL(imageRef);
+
+                            // Save image metadata to Firestore
+                            await addDoc(collection(db, 'imagesGallery'), {
+                                caption: caption,
+                                imageUrl: imageUrl,
+                                createdAt: new Date()
+                            });
+
+                            showPopup('Image uploaded successfully!');
+                            displayImages(); // Refresh the gallery after upload
+
+                        } catch (error) {
+                            console.error('Error uploading image:', error);
+                            showPopup('Failed to upload image. Please try again.');
+                        } finally {
+                            loader.style.display = 'none'; // Hide loader after processing
+                        }
+                    });
+
+                    // Show image gallery on "Show Image Gallery" button click
+                    // document.getElementById('showImageGalleryBtn').addEventListener('click', displayImages);
+                    displayImages();
+
+                    // Function to fetch and display images
+                    async function displayImages() {
+                        try {
+                            const imageGallery = document.getElementById('imageGallery');
+                            imageGallery.innerHTML = ''; // Clear gallery before populating
+
+                            const imagesQuery = query(collection(db, 'imagesGallery'), orderBy('createdAt', 'desc'));
+                            const querySnapshot = await getDocs(imagesQuery);
+
+                            querySnapshot.forEach((doc) => {
+                                const imageData = doc.data();
+
+                                const imagePost = document.createElement('div');
+                                imagePost.classList.add('image-post');
+
+                                const imgElement = document.createElement('img');
+                                imgElement.src = imageData.imageUrl;
+
+                                const caption = document.createElement('h3');
+                                caption.textContent = imageData.caption;
+
+                                const actionButtons = document.createElement('div');
+                                actionButtons.classList.add('action-buttons');
+
+                                const editButton = document.createElement('button');
+                                editButton.textContent = "Edit Image";
+                                editButton.onclick = () => editImage(doc.id, imageData);
+
+                                const deleteButton = document.createElement('button');
+                                deleteButton.textContent = "Delete";
+                                deleteButton.onclick = () => deleteImage(doc.id, imageData.imageUrl);
+
+                                actionButtons.appendChild(editButton);
+                                actionButtons.appendChild(deleteButton);
+
+                                imagePost.appendChild(imgElement);
+                                imagePost.appendChild(caption);
+                                imagePost.appendChild(actionButtons);
+                                imageGallery.appendChild(imagePost);
+                            });
+
+                        } catch (error) {
+                            console.error('Error fetching images:', error);
+                        }
+                    }
+
+                    // Function to handle image edit
+                    async function editImage(id, imageData) {
+                        const newCaption = prompt('Enter new caption:', imageData.caption);
+
+                        if (newCaption !== null && newCaption.trim() !== '') {
+                            await updateDoc(doc(db, 'imagesGallery', id), { caption: newCaption });
+                            showPopup('Image caption updated successfully!');
+                            displayImages();
+                        }
+                    }
+
+                    // Function to handle image delete
+                    async function deleteImage(id, imageUrl) {
+                        if (confirm('Are you sure you want to delete this image?')) {
+                            try {
+                                // Delete from storage if there is an image
+                                if (imageUrl) {
+                                    const storageRef = ref(storage, imageUrl);
+                                    await deleteObject(storageRef);
+                                }
+
+                                // Delete from Firestore
+                                await deleteDoc(doc(db, 'imagesGallery', id));
+
+                                showPopup('Image deleted successfully!');
+                                displayImages();
+
+                            } catch (error) {
+                                console.error('Error deleting image:', error);
+                                alert('Failed to delete image. Please try again.');
+                            }
+                        }
+                    }
+                }  // Function to initialize video upload functionality
+                function initializeVideoUpload() {
+                    const loader = document.getElementById('loader');
+                    const customPopup = document.getElementById('customPopup');
+                    const popupMessage = document.getElementById('popupMessage');
+                    const closePopupBtn = document.getElementById('closePopupBtn');
+                    const closePopupIcon = document.getElementById('closePopupIcon');
+
+                    // Function to show popup with a message
+                    function showPopup(message) {
+                        popupMessage.textContent = message;
+                        customPopup.style.display = 'block';
+                    }
+
+                    // Close popup on button click or icon click
+                    closePopupBtn.onclick = closePopupIcon.onclick = function () {
+                        customPopup.style.display = 'none';
+                    };
+
+                    // Attach event listeners for video upload after loading content
+                    document.getElementById('uploadVideoForm').addEventListener('submit', async function (event) {
+                        event.preventDefault();
+                        loader.style.display = 'block'; // Show loader during upload
+
+                        const file = document.getElementById('videoUpload').files[0];
+                        const title = document.getElementById('videoTitle').value;
+
+                        if (!file) {
+                            showPopup('Please select a video file to upload.');
+                            loader.style.display = 'none'; // Hide loader if no file is selected
+                            return;
+                        }
+
+
+                        const videoRef = ref(storage, 'videoGalleryyy/' + file.name);
+
+                        try {
+                            // Upload the video file
+                            await uploadBytes(videoRef, file);
+                            const videoUrl = await getDownloadURL(videoRef);
+
+                            // Save video metadata to Firestore
+                            await addDoc(collection(db, 'videoGalleryyy'), {
+                                title: title,
+                                videoUrl: videoUrl,
+                                createdAt: new Date()
+                            });
+
+                            showPopup('Video uploaded successfully!');
+                            displayVideos(); // Refresh the gallery after upload
+
+                        } catch (error) {
+                            console.error('Error uploading video:', error);
+                            showPopup('Failed to upload video. Please try again.');
+                        } finally {
+                            loader.style.display = 'none'; // Hide loader after processing
+                        }
+                    });
+
+                    // Show video gallery on "Show Video Gallery" button click
+                    // document.getElementById('showVideoGalleryBtn').addEventListener('click', displayVideos);
+                    displayVideos();
+
+                    // Function to fetch and display videos
+                    // Display videos with Edit and Delete buttons
+                    async function displayVideos() {
+                        try {
+                            const videoGallery = document.getElementById('videoGallery');
+                            videoGallery.innerHTML = ''; // Clear gallery before populating
+
+                            const videosQuery = query(collection(db, 'videoGalleryyy'), orderBy('createdAt', 'desc')); // Ensure the collection name is correct
+                            const querySnapshot = await getDocs(videosQuery);
+
+                            querySnapshot.forEach((doc) => {
+                                const videoData = doc.data();
+
+                                // Create video card container
+                                const videoPost = document.createElement('div');
+                                videoPost.classList.add('video-post');
+
+                                // Create video element
+                                const videoElement = document.createElement('video');
+                                videoElement.src = videoData.videoUrl;
+                                videoElement.controls = true; // Add controls for video playback
+
+                                // Create title element
+                                const title = document.createElement('h3');
+                                title.textContent = videoData.title;
+
+                                // Create action buttons for each video post (Edit & Delete)
+                                const actionButtons = document.createElement('div');
+                                actionButtons.classList.add('action-buttons');
+
+                                // Edit Button
+                                const editButton = document.createElement('button');
+                                editButton.textContent = "Edit Video";
+                                editButton.onclick = () => editVideo(doc.id, videoData);
+
+                                // Delete Button
+                                const deleteButton = document.createElement('button');
+                                deleteButton.textContent = "Delete";
+                                deleteButton.onclick = () => deleteVideo(doc.id, videoData.videoUrl);
+
+                                actionButtons.appendChild(editButton);
+                                actionButtons.appendChild(deleteButton);
+
+                                // Append elements to the video gallery
+                                videoPost.appendChild(videoElement);
+                                videoPost.appendChild(title);
+                                videoPost.appendChild(actionButtons);
+                                videoGallery.appendChild(videoPost);
+                            });
+
+                        } catch (error) {
+                            console.error('Error fetching videos:', error);
+                            showPopup('Failed to load video gallery. Please try again.');
+                        }
+                    }
+
+
+                    // Function to handle video edit
+                    async function editVideo(id, videoData) {
+                        const newTitle = prompt('Enter new title:', videoData.title);
+                        if (newTitle !== null && newTitle.trim() !== '') {
+                            loader.style.display = 'block'; // Show loader during update
+                            try {
+                                await updateDoc(doc(db, 'videoGalleryyy', id), { title: newTitle });
+                                showPopup('Video title updated successfully!');
+                                displayVideos();
+                            } catch (error) {
+                                console.error('Error updating video title:', error);
+                                showPopup('Failed to update video title. Please try again.');
+                            } finally {
+                                loader.style.display = 'none'; // Hide loader
+                            }
+                        }
+                    }
+
+                    // Function to handle video delete
+                    async function deleteVideo(id, videoUrl) {
+                        if (confirm('Are you sure you want to delete this video?')) {
+                            loader.style.display = 'block'; // Show loader during delete
+                            try {
+                                if (videoUrl) {
+                                    const storageRef = ref(storage, videoUrl);
+                                    await deleteObject(storageRef);
+                                }
+
+                                await deleteDoc(doc(db, 'videoGalleryyy', id));
+
+                                showPopup('Video deleted successfully!');
+                                displayVideos();
+                            } catch (error) {
+                                console.error('Error deleting video:', error);
+                                showPopup('Failed to delete video. Please try again.');
+                            } finally {
+                                loader.style.display = 'none'; // Hide loader
+                            }
+                        }
+                    }
+                }
+
+                // Function to initialize blog upload functionality
+         function initializeBlogUpload() {
+                    const loader = document.getElementById('loader');
+                    const customPopup = document.getElementById('customPopup');
+                    const popupMessage = document.getElementById('popupMessage');
+                    const closePopupBtn = document.getElementById('closePopupBtn');
+                    const closePopupIcon = document.getElementById('closePopupIcon');
+
+                    // Function to show popup with a message
+                    function showPopup(message) {
+                        popupMessage.textContent = message;
+                        customPopup.style.display = 'block';
+                        loader.style.display = 'none'; // Hide loader when popup is shown
+                    }
+
+                    function closePopup() {
+                        customPopup.style.display = 'none';
+                    }
+
+                    // Add event listener to the close button
+                    closePopupBtn.addEventListener('click', closePopup);
+
+                    // Handle blog upload form submission
+                    document.getElementById('uploadBlogForm').addEventListener('submit', async function (event) {
+                        event.preventDefault();
+                        loader.style.display = 'block'; // Show loader during upload
+
+                        const file = document.getElementById('blogMediaUpload').files[0];
+                        const title = document.getElementById('blogTitle').value;
+                        const theory = document.getElementById('blogTheory').value;
+
+                        if (!file) {
+                            showPopup('Please select an image or video file to upload.');
+                            loader.style.display = 'none'; // Hide loader when there's no file
+                            return;
+                        }
+
+                        const mediaType = file.type.startsWith('video') ? 'video' : 'image';
+                        const folderName = mediaType === 'video' ? 'BlogsVideos' : 'BlogsImagess';
+                        const storageRef = ref(storage, `BlogsFolder/${folderName}/${file.name}`);
+
+                        try {
+                            // Upload media file
+                            await uploadBytes(storageRef, file);
+                            const mediaUrl = await getDownloadURL(storageRef);
+
+                            // Save blog metadata to Firestore
+                            await addDoc(collection(db, 'BlogsFolder'), {
+                                title: title,
+                                theory: theory,
+                                mediaUrl: mediaUrl,
+                                mediaType: mediaType,
+                                createdAt: new Date()
+                            });
+
+                            showPopup('Blog published successfully!');
+                            displayBlogs(); // Refresh the gallery after upload
+
+                        } catch (error) {
+                            console.error('Error uploading blog:', error);
+                            showPopup('Failed to upload blog. Please try again.');
+                        }
+                    });
+
+                    // Show blog gallery when "Show Blog Posts" button is clicked
+                    displayBlogs();
+
+                    // Function to display blogs
+                    async function displayBlogs() {
+                        try {
+                            const blogGallery = document.getElementById('blogGallery');
+                            blogGallery.innerHTML = ''; // Clear gallery before populating
+
+                            const blogsQuery = query(collection(db, 'BlogsFolder'), orderBy('createdAt', 'desc'));
+                            const querySnapshot = await getDocs(blogsQuery);
+
+                            querySnapshot.forEach((doc) => {
+                                const blogData = doc.data();
+                                const blogId = doc.id;
+
+                                // Create blog card container
+                                const blogPost = document.createElement('div');
+                                blogPost.classList.add('blog-post');
+
+                                // Create media element (image or video)
+                                let mediaElement;
+                                if (blogData.mediaUrl) {
+                                    if (blogData.mediaType === 'image') {
+                                        mediaElement = document.createElement('img');
+                                        mediaElement.src = blogData.mediaUrl;
+                                        mediaElement.style.cursor = 'pointer';
+                                    } else if (blogData.mediaType === 'video') {
+                                        mediaElement = document.createElement('video');
+                                        mediaElement.src = blogData.mediaUrl;
+                                        mediaElement.controls = true; // Add controls for video
+                                    }
+                                }
+
+                                // Add click event to open modal
+                                mediaElement.onclick = () => openModal(blogData, blogId);
+
+                                // Create title and theory elements
+                                const titleElement = document.createElement('h3');
+                                titleElement.textContent = blogData.title;
+
+                                const theoryElement = document.createElement('p');
+                                theoryElement.textContent = blogData.theory;
+
+                                // Create action buttons for each blog post (Edit & Delete)
+                                const actionButtons = document.createElement('div');
+                                actionButtons.classList.add('action-buttons');
+
+                                // Edit Button
+                                const editButton = document.createElement('button');
+                                editButton.textContent = "Edit Blog";
+                                editButton.onclick = () => editBlog(doc.id, blogData);
+
+                                // Delete Button
+                                const deleteButton = document.createElement('button');
+                                deleteButton.textContent = "Delete";
+                                deleteButton.onclick = () => deleteBlog(doc.id, blogData.mediaUrl);
+
+                                actionButtons.appendChild(editButton);
+                                actionButtons.appendChild(deleteButton);
+
+                                // Append elements to the blog gallery
+                                blogPost.appendChild(mediaElement);
+                                blogPost.appendChild(titleElement);
+                                blogPost.appendChild(theoryElement);
+                                blogPost.appendChild(actionButtons);
+                                blogGallery.appendChild(blogPost);
+                            });
+
+                        } catch (error) {
+                            console.error('Error fetching blogs:', error);
+                        }
+                    }
+
+                    // Function to open modal and display blog details
+                    function openModal(blogData, blogId) {
+                        // Populate modal with blog details
+                        document.getElementById('modalTitle').textContent = blogData.title;
+                        document.getElementById('modalTheory').textContent = blogData.theory;
+
+                        const modalMediaContainer = document.getElementById('modalMediaContainer');
+                        modalMediaContainer.innerHTML = ''; // Clear previous content
+
+                        // Create media element for modal
+                        let mediaElement;
+                        if (blogData.mediaType === 'image') {
+                            mediaElement = document.createElement('img');
+                            mediaElement.src = blogData.mediaUrl;
+                        } else if (blogData.mediaType === 'video') {
+                            mediaElement = document.createElement('video');
+                            mediaElement.src = blogData.mediaUrl;
+                            mediaElement.controls = true; // Add controls for video
+                        }
+                        modalMediaContainer.appendChild(mediaElement);
+
+                        // Show the modal
+                        document.getElementById('blogModal').style.display = 'block';
+
+                        // Clear any previous click handlers to avoid duplicating actions
+                        const editButton = document.getElementById('editBlogButton');
+                        const deleteButton = document.getElementById('deleteBlogButton');
+
+                        editButton.onclick = null; // Remove previous click event
+                        deleteButton.onclick = null; // Remove previous click event
+
+                        // Attach Edit button functionality
+                        editButton.onclick = async function () {
+                            const newTitle = prompt('Enter new title:', blogData.title);
+                            const newTheory = prompt('Enter new theory:', blogData.theory);
+
+                            if (newTitle !== null && newTheory !== null && newTitle.trim() !== '' && newTheory.trim() !== '') {
+                                await updateDoc(doc(db, 'BlogsFolder', blogId), { title: newTitle, theory: newTheory });
+                                showPopup('Blog updated successfully!');
+                                displayBlogs(); // Refresh the blog gallery
+                                closeModal(); // Close the modal
+                            }
+                        };
+
+                        // Attach Delete button functionality
+                        deleteButton.onclick = async function () {
+                            if (confirm('Are you sure you want to delete this blog?')) {
+                                try {
+                                    // Delete from storage if there is media
+                                    if (blogData.mediaUrl) {
+                                        const storageRef = ref(storage, blogData.mediaUrl);
+                                        await deleteObject(storageRef);
+                                    }
+
+                                    // Delete from Firestore
+                                    await deleteDoc(doc(db, 'BlogsFolder', blogId));
+
+                                    showPopup('Blog deleted successfully!');
+                                    displayBlogs(); // Refresh the blog gallery
+                                    closeModal(); // Close the modal
+                                } catch (error) {
+                                    console.error('Error deleting blog:', error);
+                                    showPopup('Failed to delete blog. Please try again.');
+                                }
+                            }
+                        };
+                    }
+
+                    // Get the <span> element that closes the modal
+                    const span = document.getElementsByClassName("close")[0];
+
+                    // When the user clicks on <span> (x), close the modal
+                    span.onclick = function () {
+                        document.getElementById('blogModal').style.display = "none";
+                    }
+
+                    // When the user clicks anywhere outside of the modal, close it
+                    window.onclick = function (event) {
+                        const modal = document.getElementById('blogModal');
+                        if (event.target === modal) {
+                            modal.style.display = "none";
+                        }
+                    }
+
+                    function closeModal() {
+                        document.getElementById('blogModal').style.display = "none";
+                    }
+
+                    // Function to handle blog edit
+                    async function editBlog(id, blogData) {
+                        const newTitle = prompt('Enter new title:', blogData.title);
+                        const newTheory = prompt('Enter new theory:', blogData.theory);
+
+                        if (newTitle !== null && newTheory !== null && newTitle.trim() !== '' && newTheory.trim() !== '') {
+                            await updateDoc(doc(db, 'BlogsFolder', id), { title: newTitle, theory: newTheory });
+                            showPopup('Blog updated successfully!');
+                            displayBlogs();
+                        }
+                    }
+
+                    // Function to handle blog delete
+                    async function deleteBlog(id, mediaUrl) {
+                        if (confirm('Are you sure you want to delete this blog?')) {
+                            try {
+                                // Delete from storage if there is media
+                                if (mediaUrl) {
+                                    const storageRef = ref(storage, mediaUrl);
+                                    await deleteObject(storageRef);
+                                }
+
+                                // Delete from Firestore
+                                await deleteDoc(doc(db, 'BlogsFolder', id));
+
+                                showPopup('Blog deleted successfully!');
+                                displayBlogs();
+
+                            } catch (error) {
+                                console.error('Error deleting blog:', error);
+                                showPopup('Failed to delete blog. Please try again.');
+                            }
+                        }
+                    }
+                }
+   }
+
+        };
+
+
+
+
+
+
+
+    </script>
+
+    <script>
+        function toggleMenu() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+
+        // Hide the menu when any <li> inside .nav-links is clicked
+        const menuItems = document.querySelectorAll('.nav-links li');
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const navLinks = document.querySelector('.nav-links');
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+
+</html>

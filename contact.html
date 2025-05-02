@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact us</title>
+  <link rel="stylesheet" href="/css/contact.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      position: fixed;
+      width: 100%;
+      /* background-color: rgba(255, 255, 255, 0.8); Initial transparent */
+      transition: background-color 0s;
+      /* Smooth transition */
+      z-index: 1000;
+      /* Ensure it stays on top */
+      color: white;
+    }
+
+    .navbar.scrolled {
+      background-color: #061621;
+      /* Change text color if necessary */
+      /* background-color: rgba(0, 0, 0, 0.8); Dark background on scroll */
+      /* color: white; */
+    }
+
+    .nav-links li a {
+      color: inherit;
+      /* Ensure link color inherits the navbar color */
+      text-decoration: none;
+      padding: 15px;
+      display: inline-block;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="/img/logo.png" alt="Logo" /></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <!-- <li><a href="solution.html">Solution</a></li> -->
+      <li><a href="services.html">Services</a></li>
+      <li><a href="WhatWeServe.html">What we Serve</a></li>
+      <li><a href="project.html">Project</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html" class="active">Contact</a></li>
+      <li><a href="internship.html">Internship</a></li>
+    </ul>
+    <div class="burger">
+      <div class="line1"></div>
+      <div class="line2"></div>
+      <div class="line3"></div>
+    </div>
+  </nav>
+
+
+  <!-- <section class="career-section">
+    <video class="background-video" autoplay muted loop playsinline>
+      <source src="./img/About.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="career-text">
+      <h1 class="career-heading">Contact Us</h1>
+      <h2 class="career-subheading">
+        If you have any questions or need further information,<br>
+        feel free to reach out to us. We’re here to help!
+      </h2>
+    </div>
+  </section> -->
+
+  <section class="career-section">
+    <video class="background-video" autoplay muted loop playsinline>
+      <source src="./img/About.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="career-text">
+      <h1 class="career-heading fade-in-up">Contact Us</h1>
+      <h2 class="career-subheading fade-in-up delay-1">
+        If you have any questions or need further information,<br>
+        feel free to reach out to us. We’re here to help!
+      </h2>
+    </div>
+  </section>
+
+  <div class="contact-section">
+    <div class="contact-container">
+      <div class="contact-card">
+        <h2>Let's get in touch</h2>
+        <p>We're open for any suggestion or just to have a chat</p>
+
+        <div class="contact-details">
+          <div class="contact-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <p>Address: 198 West 21th Street, Suite 721 New York NY 10016</p>
+          </div>
+          <div class="contact-item">
+            <i class="fa-solid fa-phone"></i>
+            <p>Phone: +1235 2355 98</p>
+          </div>
+          <div class="contact-item">
+            <i class="fa-solid fa-envelope"></i>
+            <p>Email: info@yoursite.com</p>
+          </div>
+          <div class="contact-item">
+            <i class="fa-solid fa-globe"></i>
+            <p>Website: yoursite.com</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <h2>Get in touch</h2>
+        <form action="#">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required />
+          </div>
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" name="email" required />
+          </div>
+          <div class="form-group">
+            <label for="subject">Subject</label>
+            <input type="text" id="subject" name="subject" required />
+          </div>
+          <div class="form-group">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" rows="6" required></textarea>
+          </div>
+          <button type="submit">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section follow-us">
+        <h3>Follow Us</h3>
+        <ul class="social-links">
+          <li>
+            <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-section about">
+        <h3>About</h3>
+        <ul>
+          <li><a href="#">What is Ennealogic</a></li>
+          <li><a href="#">Board of Directors</a></li>
+          <li><a href="#">Executive Leadership</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section business-units">
+        <h3>Business Units</h3>
+        <ul>
+          <li><a href="#">Overview</a></li>
+          <li><a href="#">Semiconductors</a></li>
+          <li><a href="#">Smart Devices</a></li>
+          <li><a href="#">Smart Buildings</a></li>
+          <li><a href="#">Smart Appliances</a></li>
+          <li><a href="#">Smart Health</a></li>
+          <li><a href="#">Advanced Industrials</a></li>
+          <li><a href="#">Next Gen Infrastructure</a></li>
+          <li><a href="#">Electrification</a></li>
+          <li><a href="#">AI Infrastructure</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section other-links">
+        <ul>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">Terms & Conditions</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Newsroom</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy;2024 Ennealogic | All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <script>
+    // Burger menu functionality
+    const burger = document.querySelector(".burger");
+    const nav = document.querySelector(".nav-links");
+    burger.addEventListener("click", () => {
+      nav.classList.toggle("nav-active");
+      burger.classList.toggle("toggle");
+    });
+
+
+    // Change navbar color on scroll
+    window.addEventListener("scroll", function () {
+      const navbar = document.querySelector(".navbar");
+      const scrollPosition = window.scrollY;
+      const changePoint = 50; // Set a more noticeable scroll threshold
+
+      if (scrollPosition > changePoint) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+
+
+    // Slideshow functionality
+    let slideIndex = 0;
+    showSlides();
+    function showSlides() {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {
+        slideIndex = 1;
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+      setTimeout(showSlides, 4000); // Change image every 4 seconds
+    }
+  </script>
+
+</body>
+
+</html>

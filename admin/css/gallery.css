@@ -1,0 +1,41 @@
+
+        body{
+            background-color: black;
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: cover;
+            color: white;
+            height: 100vh;
+        }
+        .main{
+            margin-top: 20px;
+        }
+
+        .container-fluid {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+
+        input[type="file"]{
+            display: none;
+        }
+
+        label{
+            background-color: black;
+            padding: 6px;
+            margin: 5px;
+            border-radius: 5px;
+        }
+
+        button{
+            background-color: green;
+            padding: 5px;
+            margin: 5px;
+            border-radius: 5px;
+            color: white;
+            font-size: 20px;
+
+        }

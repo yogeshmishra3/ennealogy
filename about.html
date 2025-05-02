@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us</title>
+  <link rel="stylesheet" href="/css/about.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+    }
+
+    body::-webkit-scrollbar {
+      display: block;
+      width: 5px;
+      background: #061621;
+    }
+
+    body::-webkit-scrollbar-thumb {
+      background-color: #fff;
+
+      border-radius: 50px;
+    }
+
+    .navbar.scrolled {
+      background-color: #061621;
+      /* Change to desired color on scroll */
+      color: white;
+      /* Adjust text color if needed */
+    }
+
+    .navbar {
+      position: fixed;
+      width: 100%;
+      /* background-color: rgba(255, 255, 255, 0.8); Initial transparent */
+      transition: background-color 0s;
+      /* Smooth transition */
+      z-index: 1000;
+      /* Ensure it stays on top */
+      color: white;
+    }
+
+    .navbar.scrolled {
+      /* background-color: rgba(0, 0, 0, 0.8); Dark background on scroll */
+      color: white;
+      /* Change text color if necessary */
+    }
+
+    .nav-links li a {
+      color: inherit;
+      /* Ensure link color inherits the navbar color */
+      text-decoration: none;
+      padding: 15px;
+      display: inline-block;
+    }
+
+    .dev-image-box-about img {
+      width: 500px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .dev-text {
+      padding: 20px;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="logo" style="width: 40%;">
+      <a href="index.html"><img src="/img/logo.png" alt="Logo" /></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="about.html" class="active">About</a></li>
+      <!-- <li><a href="solution.html">Solution</a></li> -->
+      <li><a href="services.html">Services</a></li>
+      <li><a href="WhatWeServe.html">What we Serve</a></li>
+      <li><a href="project.html">Project</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="internship.html">Internship</a></li>
+    </ul>
+    <div class="burger">
+      <div class="line1"></div>
+      <div class="line2"></div>
+      <div class="line3"></div>
+    </div>
+  </nav>
+
+  <!-- =======================about====================================  -->
+  <!-- <section class="career-section">
+    <video class="background-video" autoplay muted loop playsinline>
+      <source src="./img/About.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="career-text">
+      <h1 class="career-heading">ABOUT US</h1>
+      <h2 class="career-subheading">
+        "Client's Satisfaction Defines Our Success” <br />
+        We believe there is no other way to measure our success.
+      </h2>
+    </div>
+  </section> -->
+
+  <section class="career-section">
+    <video class="background-video" autoplay muted loop playsinline>
+      <source src="./img/About.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="career-text">
+      <h1 class="career-heading fade-in-up">ABOUT US</h1>
+      <h2 class="career-subheading fade-in-up delay-1">
+        Client's Satisfaction Defines Our Success <br />
+        We believe there is no other way to measure our success.
+      </h2>
+    </div>
+  </section>
+
+
+  <!-- About us -->
+  <div id="Home">
+    <div class="dev-section1">
+      <div class="dev-image-container">
+        <div class="dev-image-box-about">
+          <img src="./img/Our mission.jpg" alt="Development team" />
+        </div>
+      </div>
+      <div class="dev-text">
+        <h1>About us</h1>
+        <p>
+          At Ennea Information Systems, our mission is to become a globally
+          recognized Indian technology company specializing in software and
+          hardware development, M2M solutions, wireless communication, RFID
+          solutions, and electronics devices supply. We are a next-generation
+          technological firm delivering services across diverse sectors such as
+          industrial automation, M2M integration, RFID technology, healthcare
+          management, mining solutions, and automated meter reading.
+        </p>
+        <p>
+          We take pride in designing custom products and solutions, leveraging
+          our expertise in digital hardware, RF, ASIC/FPGA, software, and
+          embedded systems to deliver cutting-edge engineering solutions. Our
+          dedication is to building successful, market-leading products that
+          reflect our commitment to excellence.
+        </p>
+      </div>
+
+    </div>
+    <div class="dev-section">
+      <div class="dev-text">
+        <h1>Careers at Ennea Information Systems</h1>
+        <p>
+          Are you seeking a career, not just a job? If so, you've come to the
+          right place! At Ennea Information Systems, we're focused on fostering
+          careers and building a prosperous future for all. In a collaborative
+          environment that encourages innovation, our team members play vital
+          roles in every project, allowing for tremendous growth and the
+          opportunity to acquire new skills.
+        </p>
+        <p>
+          With access to advanced technology and a state-of-the-art lab for
+          design and development, our multidisciplinary engineering teams can
+          thrive and create revolutionary products. We believe in nurturing
+          talent and providing a unique environment for personal and
+          professional development.
+        </p>
+      </div>
+      <div class="dev-image-container">
+        <div class="dev-image-box">
+          <img src="./img/1.jpg" alt="Careers at Ennea" />
+        </div>
+      </div>
+    </div>
+
+    <div class="dev-section1">
+      <div class="dev-image-container">
+        <div class="dev-image-box">
+          <img src="./img/2.jpg" alt="Grow with Us" />
+        </div>
+      </div>
+      <div class="dev-text">
+        <h1>Grow with Us</h1>
+        <p>
+          At Ennea Information Systems, we see our employees as key to our
+          success. We provide an opportunity to grow with the company and reach
+          your full potential. Your talents will be an essential part of
+          creating groundbreaking products, and we offer a vibrant,
+          people-centered environment that supports growth and innovation.
+        </p>
+      </div>
+    </div>
+
+    <div class="dev-section">
+      <div class="dev-text" style="background-color: #f5faff">
+        <h1>Rewards</h1>
+        <p>
+          We recognize the importance of rewarding our team members. Our
+          competitive remuneration packages are on par with industry standards,
+          with annual appraisals and increments. We also provide comprehensive
+          insurance policies for employees and their families, including life
+          and personal accident coverage. Our employees are our most valuable
+          asset, and we are committed to enhancing their lives.
+        </p>
+      </div>
+      <div class="dev-image-container">
+        <div class="dev-image-box">
+          <img src="./img/3.jpg" alt="Employee Rewards" />
+        </div>
+      </div>
+    </div>
+
+    <div class="dev-section1">
+      <div class="dev-image-container">
+        <div class="dev-image-box">
+          <img src="./img/5.jpg" alt="Equal Employment Opportunity" />
+        </div>
+      </div>
+      <div class="dev-text">
+        <h1>Equal Employment Opportunity</h1>
+        <p>
+          We are dedicated to providing equal employment opportunities to all.
+          Ennea Information Systems does not discriminate based on race, gender,
+          religion, or any other legally protected characteristic. This
+          commitment applies to all employment practices, including hiring,
+          promotion, training, and disciplinary actions.
+        </p>
+      </div>
+    </div>
+  </div>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section follow-us">
+        <h3>Follow Us</h3>
+        <ul class="social-links">
+          <li>
+            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-section about">
+        <h3>About</h3>
+        <ul>
+          <li><a href="#">What is Ennealogic</a></li>
+          <li><a href="#">Board of Directors</a></li>
+          <li><a href="#">Executive Leadership</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section business-units">
+        <h3>Business Units</h3>
+        <ul>
+          <li><a href="#">Overview</a></li>
+          <li><a href="#">Semiconductors</a></li>
+          <li><a href="#">Smart Devices</a></li>
+          <li><a href="#">Smart Buildings</a></li>
+          <li><a href="#">Smart Appliances</a></li>
+          <li><a href="#">Smart Health</a></li>
+          <li><a href="#">Advanced Industrials</a></li>
+          <li><a href="#">Next Gen Infrastructure</a></li>
+          <li><a href="#">Electrification</a></li>
+          <li><a href="#">AI Infrastructure</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section other-links">
+        <ul>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">Terms & Conditions</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Newsroom</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy;2024 Ennealogic | All Rights Reserved</p>
+    </div>
+  </footer>
+
+  <script>
+    // Burger menu functionality
+    const burger = document.querySelector(".burger");
+    const nav = document.querySelector(".nav-links");
+    burger.addEventListener("click", () => {
+      nav.classList.toggle("nav-active");
+      burger.classList.toggle("toggle");
+    });
+
+
+    // Change navbar color on scroll
+    window.addEventListener("scroll", function () {
+      const navbar = document.querySelector(".navbar");
+      const scrollPosition = window.scrollY;
+      const changePoint = 50; // Set a more noticeable scroll threshold
+
+      if (scrollPosition > changePoint) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+    // Slideshow functionality
+    let slideIndex = 0;
+    showSlides();
+    function showSlides() {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {
+        slideIndex = 1;
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+      setTimeout(showSlides, 4000); // Change image every 4 seconds
+    }
+
+
+    // Scroll animation for dev sections
+    document.addEventListener('DOMContentLoaded', function () {
+      // Add animate class to elements
+      const sections = document.querySelectorAll('.dev-section, .dev-section1');
+
+      sections.forEach(section => {
+        section.classList.add('animate');
+
+        const text = section.querySelector('.dev-text');
+        const image = section.querySelector('.dev-image-container');
+        const paragraphs = section.querySelectorAll('p');
+
+        if (text) text.classList.add('animate');
+        if (image) image.classList.add('animate');
+        paragraphs.forEach(p => p.classList.add('animate'));
+      });
+
+      // Function to check if element is in viewport
+      function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+          rect.top <= (window.innerHeight || document.documentElement.clientHeight) * 0.75 &&
+          rect.bottom >= 0
+        );
+      }
+
+      // Function to handle scroll
+      function handleScroll() {
+        const animatedElements = document.querySelectorAll('.animate');
+
+        animatedElements.forEach(element => {
+          if (isInViewport(element) && !element.classList.contains('show')) {
+            element.classList.add('show');
+          }
+        });
+      }
+
+      // Initial check and add scroll event listener
+      handleScroll();
+      window.addEventListener('scroll', handleScroll);
+    });
+  </script>
+  <script>
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate");
+            observer.unobserve(entry.target); // Optional: Only animate once
+          }
+        });
+      },
+      {
+        threshold: 0.3,
+      }
+    );
+
+    document.querySelectorAll(".dev-section, .dev-section1").forEach(section => {
+      observer.observe(section);
+    });
+  </script>
+
+</body>
+
+</html>

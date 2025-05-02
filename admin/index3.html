@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="main">
+
+     <!-- Internship Table -->
+     <div id="internshipBlock">
+      <h2>Internship Details</h2>
+      <table border="1">
+          <thead>
+              <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>DOB</th>
+                  <th>Address</th>
+                  <th>State</th>
+                  <th>Designation</th>
+                  <th>Currently Working</th>
+                  <th>Experience</th>
+                  <th>Resume</th>
+
+              </tr>
+          </thead>
+          <tbody id="internshipTableBody"></tbody>
+      </table>
+  </div>
+
+
+</div>
+<script>
+  // Logout function
+  function logout() {
+      localStorage.removeItem("loggedIn");
+      window.location.href = "login.html"; // Redirect to login page
+  }
+</script>
+
+<!-- Firebase SDK -->
+<script type="module">
+  // Check if user is logged in
+  window.onload = function () {
+      const isLoggedIn = localStorage.getItem("loggedIn");
+      if (isLoggedIn !== "true") {
+          window.location.href = "login.html"; // Redirect if not logged in
+      }
+  };
+
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+  import { getDatabase, ref, get, child } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-database.js";
+  import { getStorage, ref as storageRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
+  import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+  // Firebase config and initialization
+  const firebaseConfig = {
+      apiKey: "AIzaSyCe9mKD6-clP_Sfip4zSyN1SKUn8G5cays",
+      authDomain: "analogy-64fa2.firebaseapp.com",
+      projectId: "analogy-64fa2",
+      storageBucket: "analogy-64fa2.appspot.com",
+      messagingSenderId: "771776371665",
+      appId: "1:771776371665:web:77c5ce8c1e7017b977def0",
+      measurementId: "G-33XWDFQY89"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const storage = getStorage(app);
+  const db = getFirestore(app);
+  const database = getDatabase(app); // Initialize the Realtime Database
+
+  // document.getElementById('viewappdetails').addEventListener('click', async function () {
+  //           document.getElementById("internshipBlock").style.display = "block";
+  //           await displayInternships(); // Fetch internships when displaying the block
+  //       });
+
+// Function to display internships from Firebase Realtime Database
+window.onload =  async function displayInternships() {
+            try {
+                const internshipTableBody = document.getElementById("internshipTableBody");
+                internshipTableBody.innerHTML = ""; // Clear table body before populating
+                const seenEmails = new Set(); // Set to track displayed emails
+
+                const dbRef = ref(database);
+                const snapshot = await get(child(dbRef, "messages"));
+
+                if (snapshot.exists()) {
+                    const messages = snapshot.val();
+
+                    for (const key in messages) {
+                        const internship = messages[key];
+
+                        if (!seenEmails.has(internship.email)) {
+                            seenEmails.add(internship.email);
+
+                            const resumeDisplay = internship.resume ? `<a href="${internship.resume}" target="_blank">View Resume</a>` : 'N/A';
+
+                            let currentlyWorkingDisplay = "N/A";
+                            if (internship.experience && internship.experience.currentlyWorking) {
+                                currentlyWorkingDisplay = internship.experience.currentlyWorking === "yes" ? "Yes" : "No";
+                            }
+
+                            const experienceDisplay = internship.experience && internship.experience.years ? `${internship.experience.years} Years` : "N/A";
+
+                            const row = document.createElement("tr");
+                            row.innerHTML = `
+                        <td>${internship.name}</td>
+                        <td>${internship.email}</td>
+                        <td>${internship.phone}</td>
+                        <td>${internship.dob}</td>
+                        <td>${internship.Currentaddress}</td>
+                        <td>${internship.state}</td>
+                        <td>${internship.designation}</td>
+                        <td>${currentlyWorkingDisplay}</td>
+                        <td>${experienceDisplay}</td>
+                        <td><a href="${internship.resumeURL}" target="_blank">View Resume</a></td>
+
+                `;
+
+                            internshipTableBody.appendChild(row);
+                        }
+                    }
+                } else {
+                    internshipTableBody.innerHTML = "<tr><td colspan='10'>No internship details available</td></tr>";
+                }
+            } catch (error) {
+                console.error("Error fetching internship data:", error);
+            }
+        }
+
+
+
+  </script>
+
+</div>
+</body>
+</html>

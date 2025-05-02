@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insert and Manage Images</title>
+  <style>
+    /* body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f7f7f7;
+      margin: 0;
+      padding: 20px;
+    }  */
+
+    h2 {
+      text-align: center;
+      color: #222223;
+      margin-bottom: 20px;
+    }
+
+    /* Form styling */
+    form {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(12, 12, 12, 0.1);
+      width: 100%;
+      max-width: 400px;
+      margin: 0 auto 50px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #555;
+      font-weight: bold;
+    }
+
+    input[type="file"], input[type="text"] {
+      width: 90%;
+      padding: 10px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    button[type="submit"], #showImageGalleryBtn {
+      background-color: #5cb85c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      display: block; /* Add this */
+      margin: 20px auto; /* Add this */
+      text-align: center;
+    }
+
+    button[type="submit"]:hover, #showImageGalleryBtn:hover {
+      background-color: #4cae4c;
+    }
+
+    /* Image gallery section */
+    #imageGallery {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .image-card {
+      background-color: #fff;
+      margin: 10px;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      width: 180px;
+      transition: transform 0.3s ease;
+    }
+
+    .image-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .image-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 5px;
+    }
+
+    .image-card p {
+      margin: 10px 0;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .action-buttons {
+      margin-top: 10px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    .action-buttons button {
+      background-color: #337ab7;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .action-buttons button:hover {
+      background-color: #286090;
+    }
+
+    .action-buttons button:nth-child(2) {
+      background-color: #d9534f;
+    }
+
+    .action-buttons button:nth-child(2):hover {
+      background-color: #c9302c;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      form {
+        width: 50%;
+      }
+
+      .image-card {
+        width: 45%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .image-card {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<div id="image1">
+  <h2>Upload Image</h2>
+
+  <!-- Image Upload Form -->
+  <form id="uploadImageForm">
+    <label for="imageUpload">Select Image:</label>
+    <input type="file" id="imageUpload" accept="image/*" /><br><br>
+    <label for="imageCaption">Caption:</label>
+    <input type="text" id="imageCaption" required /><br><br>
+    <button type="submit">Upload Image</button>
+  </form>
+
+  <button id="showImageGalleryBtn">Show Image Gallery</button>
+</div>
+
+
+  <!-- Image Gallery Section -->
+  <div id="imageGallery">
+
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js";
+    import { getFirestore, collection, addDoc, getDocs, updateDoc, deleteDoc, doc, query, orderBy } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+    // Firebase config and initialization
+    const firebaseConfig = {
+      apiKey: "AIzaSyCe9mKD6-clP_Sfip4zSyN1SKUn8G5cays",
+      authDomain: "analogy-64fa2.firebaseapp.com",
+      projectId: "analogy-64fa2", 
+      storageBucket: "analogy-64fa2.appspot.com",
+      messagingSenderId: "771776371665",
+      appId: "1:771776371665:web:77c5ce8c1e7017b977def0",
+      measurementId: "G-33XWDFQY89"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const storage = getStorage(app);
+    const db = getFirestore(app);
+
+    // Handle image upload
+    document.getElementById('uploadImageForm').addEventListener('submit', async function(event) {
+      event.preventDefault();
+      const file = document.getElementById('imageUpload').files[0];
+      const caption = document.getElementById('imageCaption').value;
+
+      if (!file) {
+        alert('Please select an image file to upload.');
+        return;
+      }
+
+      const storageRef = ref(storage, 'images/' + file.name);
+      await uploadBytes(storageRef, file);
+      const imageUrl = await getDownloadURL(storageRef);
+
+      // Save the image metadata (URL and caption) to Firestore
+      await addDoc(collection(db, 'images'), {
+        caption: caption,
+        imageUrl: imageUrl,
+        createdAt: new Date()
+      });
+
+      alert('Image uploaded successfully!');
+    });
+
+    // Display images with Edit and Delete buttons
+    async function displayImages() {
+      try {
+        const imageGallery = document.getElementById('imageGallery');
+        imageGallery.innerHTML = ''; // Clear gallery before populating
+
+        const imagesQuery = query(collection(db, 'images'), orderBy('createdAt', 'desc'));
+        const querySnapshot = await getDocs(imagesQuery);
+
+        querySnapshot.forEach((doc) => {
+          const imageData = doc.data();
+
+          // Create image card container
+          const imageCard = document.createElement('div');
+          imageCard.classList.add('image-card');
+
+          // Create image and caption elements
+          const image = document.createElement('img');
+          image.src = imageData.imageUrl;
+
+          const caption = document.createElement('p');
+          caption.textContent = imageData.caption;
+
+          // Create action buttons for each image (Edit & Delete)
+          const actionButtons = document.createElement('div');
+          actionButtons.classList.add('action-buttons');
+
+          // Edit Button
+          const editButton = document.createElement('button');
+          editButton.textContent = "Edit Caption";
+          editButton.onclick = () => editImage(doc.id, imageData);
+
+          // Delete Button
+          const deleteButton = document.createElement('button');
+          deleteButton.textContent = "Delete";
+          deleteButton.onclick = () => deleteImage(doc.id, imageData.imageUrl);
+
+          actionButtons.appendChild(editButton);
+          actionButtons.appendChild(deleteButton);
+
+          // Append elements to the image gallery
+          imageCard.appendChild(image);
+          imageCard.appendChild(caption);
+          imageCard.appendChild(actionButtons);
+          imageGallery.appendChild(imageCard);
+        });
+
+      } catch (error) {
+        console.error('Error fetching images:', error);
+      }
+    }
+
+    // Edit image caption (do not replace the image)
+    async function editImage(imageId, imageData) {
+      const newCaption = prompt("Enter new caption:", imageData.caption);
+
+      // If the user cancels the prompt, do nothing
+      if (newCaption === null) return;
+
+      // Update Firestore with the new caption only
+      await updateDoc(doc(db, 'images', imageId), {
+        caption: newCaption || imageData.caption, // Use the new caption, or retain the old one if no new caption is provided
+      });
+
+      alert('Caption updated successfully!');
+      displayImages();
+    }
+
+    // Delete image from Firebase Storage and Firestore
+    async function deleteImage(imageId, imageUrl) {
+      if (!confirm("Are you sure you want to delete this image?")) return;
+
+      try {
+        // Delete image from storage
+        const imageRef = ref(storage, imageUrl);
+        await deleteObject(imageRef);
+
+        // Delete image data from Firestore
+        await deleteDoc(doc(db, 'images', imageId));
+
+        alert('Image deleted successfully!');
+        displayImages();
+      } catch (error) {
+        console.error('Error deleting image:', error);
+      }
+    }
+
+    // Show image gallery button functionality
+    document.getElementById('showImageGalleryBtn').addEventListener('click', displayImages);
+
+  </script>
+
+
+</body>
+</html>

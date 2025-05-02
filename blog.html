@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog</title>
+    <link rel="stylesheet" href="/css/blog.css" />
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+  />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+        .navbar {
+            position: fixed;
+            width: 100%;
+            /* background-color: rgba(255, 255, 255, 0.8); Initial transparent */
+            transition: background-color 0.0s; /* Smooth transition */
+            z-index: 1000; /* Ensure it stays on top */
+            color: white;
+        }
+        .navbar.scrolled {
+          /* background-color: rgba(0, 0, 0, 0.8); Dark background on scroll */
+          /* color: white; */
+          background-color: #061621; /* Change text color if necessary */
+        }
+        .nav-links li a {
+            color: inherit; /* Ensure link color inherits the navbar color */
+            text-decoration: none;
+            padding: 15px;
+            display: inline-block;
+        }
+        #imageGallery,
+      #videoGallery,
+      #blogGallery {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+        padding: 20px;
+      }
+
+      .image-card,
+      .video-card,
+      .blog-post {
+        margin: 15px;
+        padding: 10px;
+        border: 2px solid #ccc;
+        border-radius: 8px;
+        background-color: #dbd7d2;
+        text-align: center;
+        width: 220px;
+        transition: transform 1s ease;
+        cursor: pointer; /* Change cursor to pointer */
+      }
+
+      .image-card:hover,
+      .video-card:hover,
+      .blog-post:hover {
+        transform: scale(1.1);
+      }
+        h2 {
+            text-align: center;
+            margin-top: 20px;
+        }
+        #blogGalleryy {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 20px;
+            padding: 20px;
+        }
+
+        .blog-post p{
+          display: none;
+        }
+
+        .blog-post h3{
+          color: black;
+          text-decoration: none;
+        }
+        .blog-post {
+            margin: 15px;
+            padding: 10px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            background-color: #fff;
+            text-align: center;
+            width: 220px;
+        }
+        img, video {
+            width: 200px;
+            height: 200px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        h3 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 1.1em;
+            margin-bottom: 10px;
+        }
+         /* Modal styles */
+      .modal {
+        display: none; /* Hidden by default */
+        position: fixed; /* Stay in place */
+        z-index: 1000; /* Sit on top */
+        left: 0;
+        top: 0;
+        width: 100%; /* Full width */
+        height: 100%; /* Full height */
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0, 0, 0, 0.7); /* Black w/ opacity */
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto; /* 15% from the top and centered */
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%; /* Could be more or less, depending on screen size */
+        max-width: 600px; /* Max width for larger screens */
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">
+          <a href="index.html"><img src="/img/logo.png" alt="Logo" /></a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="about.html" >About</a></li>
+          <!-- <li><a href="solution.html">Solution</a></li> -->
+          <li><a href="services.html">Services</a></li>
+          <li><a href="WWS.html">What we Serve</a></li>
+          <li><a href="project.html">Project</a></li>
+          <li><a href="blog.html"  class="active">Blog</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="internship.html">Internship</a></li>
+        </ul>
+        <div class="burger">
+          <div class="line1"></div>
+          <div class="line2"></div>
+          <div class="line3"></div>
+        </div>
+    </nav>
+
+    <!-- <section class="career-section">
+        <video class="background-video" autoplay muted loop playsinline>
+          <source src="./img/About.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="career-text">
+          <h1 class="career-heading">Blog</h1>
+          <h2 class="career-subheading">
+            "We believe that the value of our blogs 
+  
+            <br />
+            lies in their ability to
+            inspire,
+            <br> inform, and connect with our audience, reflecting  <br>
+            our commitment to
+            excellence."
+          </h2>
+        </div>
+    </section> -->
+
+    <section class="career-section">
+      <video class="background-video" autoplay muted loop playsinline>
+        <source src="./img/About.mp4" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="career-text">
+        <h1 class="career-heading fade-in-up">Blog</h1>
+        <h2 class="career-subheading fade-in-up delay-1">
+          "We believe that the value of our blogs 
+          <br />
+          lies in their ability to inspire,
+          <br> inform, and connect with our audience, reflecting  
+          <br> our commitment to excellence."
+        </h2>
+      </div>
+    </section>
+
+    
+    <h2>Blog Gallery</h2>
+
+    <!-- Blog Gallery Section -->
+    <div id="blogGallery"></div>
+
+    <footer>
+        <div class="footer-container">
+          <div class="footer-section follow-us">
+            <h3>Follow Us</h3>
+            <ul class="social-links">
+              <li>
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+              </li>
+              <li>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+              </li>
+            </ul>
+          </div>
+          <div class="footer-section about">
+            <h3>About</h3>
+            <ul>
+              <li><a href="#">What is Ennealogic</a></li>
+              <li><a href="#">Board of Directors</a></li>
+              <li><a href="#">Executive Leadership</a></li>
+            </ul>
+          </div>
+          <div class="footer-section business-units">
+            <h3>Business Units</h3>
+            <ul>
+              <li><a href="#">Overview</a></li>
+              <li><a href="#">Semiconductors</a></li>
+              <li><a href="#">Smart Devices</a></li>
+              <li><a href="#">Smart Buildings</a></li>
+              <li><a href="#">Smart Appliances</a></li>
+              <li><a href="#">Smart Health</a></li>
+              <li><a href="#">Advanced Industrials</a></li>
+              <li><a href="#">Next Gen Infrastructure</a></li>
+              <li><a href="#">Electrification</a></li>
+              <li><a href="#">AI Infrastructure</a></li>
+            </ul>
+          </div>
+          <div class="footer-section other-links">
+            <ul>
+              <li><a href="#">Cookie Policy</a></li>
+              <li><a href="#">Terms & Conditions</a></li>
+              <li><a href="#">Privacy Policy</a></li>
+              <li><a href="#">Newsroom</a></li>
+              <li><a href="#">FAQs</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Contact Us</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>&copy;2024 Ennealogic | All Rights Reserved</p>
+        </div>
+      </footer>
+    <!-- Firebase SDK -->
+    <script type="module">
+        // Firebase imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+        // Firebase config and initialization
+        const firebaseConfig = {
+            apiKey: "AIzaSyCe9mKD6-clP_Sfip4zSyN1SKUn8G5cays",
+            authDomain: "analogy-64fa2.firebaseapp.com",
+            projectId: "analogy-64fa2",
+            storageBucket: "analogy-64fa2.appspot.com",
+            messagingSenderId: "771776371665",
+            appId: "1:771776371665:web:77c5ce8c1e7017b977def0",
+            measurementId: "G-33XWDFQY89"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Display blogs with Edit and Delete buttons
+        async function displayBlogs() {
+                try {
+                    const blogGallery = document.getElementById('blogGallery');
+                    blogGallery.innerHTML = ''; // Clear gallery before populating
+
+                    const blogsQuery = query(collection(db, 'BlogsFolder'), orderBy('createdAt', 'desc'));
+                    const querySnapshot = await getDocs(blogsQuery);
+
+                    querySnapshot.forEach((doc) => {
+                        const blogData = doc.data();
+                        const blogId = doc.id;
+
+                        const blogLink = document.createElement('a');
+                        blogLink.href = `blogDetails.html?id=${blogId}`;
+                        blogLink.target = '_blank';
+
+                        // Create blog card container
+                        const blogPost = document.createElement('div');
+                        blogPost.classList.add('blog-post');
+
+                        // Create media element (image or video)
+                        let mediaElement;
+                        if (blogData.mediaUrl) {
+                            if (blogData.mediaType === 'image') {
+                                mediaElement = document.createElement('img');
+                                mediaElement.src = blogData.mediaUrl;
+                            } else if (blogData.mediaType === 'video') {
+                                mediaElement = document.createElement('video');
+                                mediaElement.src = blogData.mediaUrl;
+                                mediaElement.controls = true; // Add controls for video
+                            }
+                        }
+
+                        // Create title and theory elements
+                        const title = document.createElement('h3');
+                        title.textContent = blogData.title;
+
+                        const theory = document.createElement('p');
+                        theory.textContent = blogData.theory;
+
+                        // Append elements to the blog gallery
+                        blogPost.appendChild(mediaElement);
+                        blogPost.appendChild(title);
+                        blogPost.appendChild(theory);
+                        blogLink.appendChild(blogPost);
+                        blogGallery.appendChild(blogLink);
+                    });
+
+                } catch (error) {
+                    console.error('Error fetching blogs:', error);
+                }
+            }
+
+        // Call displayBlogs function when the page loads
+        window.onload = displayBlogs;
+    </script>
+      <script>
+        // Burger menu functionality
+        const burger = document.querySelector('.burger');
+        const nav = document.querySelector('.nav-links');
+        burger.addEventListener('click', () => {
+            nav.classList.toggle('nav-active');
+            burger.classList.toggle('toggle');
+        });
+
+        // Change navbar color on scroll
+      window.addEventListener("scroll", function () {
+        const navbar = document.querySelector(".navbar");
+        const scrollPosition = window.scrollY;
+        const changePoint = 50; // Set a more noticeable scroll threshold
+  
+        if (scrollPosition > changePoint) {
+          navbar.classList.add("scrolled");
+        } else {
+          navbar.classList.remove("scrolled");
+        }
+      });
+        // Slideshow functionality
+        let slideIndex = 0;
+        showSlides();
+        function showSlides() {
+            let i;
+            let slides = document.getElementsByClassName("mySlides");
+            let dots = document.getElementsByClassName("dot");
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) {slideIndex = 1}    
+            for (i = 0; i < dots.length; i++) {
+                dots[i].className = dots[i].className.replace(" active", "");
+            }
+            slides[slideIndex-1].style.display = "block";  
+            dots[slideIndex-1].className += " active";
+            setTimeout(showSlides, 4000); // Change image every 4 seconds
+        }
+
+    </script>
+</body>
+</html>

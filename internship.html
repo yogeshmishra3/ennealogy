@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Intenship</title>
+  <link rel="stylesheet" href="/css/internship.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      position: fixed;
+      width: 100%;
+      /* background-color: rgba(255, 255, 255, 0.8); Initial transparent */
+      transition: background-color 0s;
+      /* Smooth transition */
+      z-index: 1000;
+      /* Ensure it stays on top */
+      color: white;
+    }
+
+    .navbar.scrolled {
+      /* background-color: rgba(0, 0, 0, 0.8); Dark background on scroll */
+      /* color: white; */
+      background-color: #061621;
+      /* Change text color if necessary */
+    }
+
+    .nav-links li a {
+      color: inherit;
+      /* Ensure link color inherits the navbar color */
+      text-decoration: none;
+      padding: 15px;
+      display: inline-block;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      border: 1px solid #e0e0e0;
+    }
+
+    #InternshipForm button {
+      background: rgb(67, 67, 234);
+    }
+
+
+    #InternshipForm button:hover {
+      background: rgb(1, 1, 255);
+    }
+
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #333;
+    }
+
+    form {
+      display: grid;
+      gap: 15px;
+    }
+
+    label {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="file"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+      transition: border-color 0.3s ease;
+    }
+
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="date"]:focus,
+    input[type="file"]:focus,
+    select:focus,
+    textarea:focus {
+      border-color: #81abf9;
+      outline: none;
+    }
+
+    button {
+      background-color: #81abf9;
+      color: white;
+      padding: 15px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #a2c8f7;
+    }
+
+    .exp {
+      visibility: hidden;
+    }
+
+    /* Media queries for responsiveness */
+    @media (max-width: 768px) {
+      .container {
+        margin: 20px auto;
+        padding: 30px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="date"],
+      input[type="file"],
+      select,
+      textarea,
+      button {
+        font-size: 14px;
+        padding: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      button {
+        padding: 12px;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="tel"],
+      input[type="date"],
+      input[type="file"],
+      select,
+      textarea {
+        padding: 6px;
+      }
+    }
+
+    /* Additional styling for the radio buttons */
+    .radio-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .radio-group input {
+      margin-right: 5px;
+    }
+  </style>
+  <!-- Load Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="/img/logo.png" alt="Logo" /></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <!-- <li><a href="solution.html">Solution</a></li> -->
+      <li><a href="services.html">Services</a></li>
+      <li><a href="WhatWeServe.html">What we Serve</a></li>
+      <li><a href="project.html">Project</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="internship.html" class="active">Internship</a></li>
+    </ul>
+    <div class="burger">
+      <div class="line1"></div>
+      <div class="line2"></div>
+      <div class="line3"></div>
+    </div>
+  </nav>
+
+  <!-- <section class="career-section">
+    <video class="background-video" autoplay muted loop playsinline>
+      <source src="./img/About.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="career-text">
+      <h1 class="career-heading">Internship</h1>
+      <h2 class="career-subheading">
+        Our internships offer hands-on <br />
+        experience, fostering growth and innovation.
+      </h2>
+    </div>
+  </section> -->
+
+  <section class="career-section">
+    <video class="background-video" autoplay muted loop playsinline>
+      <source src="./img/About.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="career-text">
+      <h1 class="career-heading fade-in-up">Internship</h1>
+      <h2 class="career-subheading fade-in-up delay-1">
+        Our internships offer hands-on <br />
+        experience, fostering growth and innovation.
+      </h2>
+    </div>
+  </section>
+
+
+  <div class="container">
+    <h1>Internship Application Form</h1>
+    <form id="InternshipForm">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" required />
+
+      <label for="email">Email Address:</label>
+      <input type="email" id="email" required />
+
+      <label for="phone">Phone Number:</label>
+      <input type="tel" id="phone" required />
+
+      <label for="dob">Date of Birth:</label>
+      <input type="date" id="dob" required />
+
+      <label for="Current-address">Current Address:</label>
+      <input type="text" id="Currentaddress" required />
+
+      <label for="state">State</label>
+      <select id="state">
+        <option value="" disabled selected>Select State</option>
+        <option value="Mah">Maharashtra</option>
+        <option value="Bih">Bihar</option>
+        <option value="mp">Madhya Pradesh</option>
+        <option value="Guj">Gujarat</option>
+        <option value="up">Uttar Pradesh</option>
+      </select>
+
+      <label for="degree">Degree/Qualification:</label>
+      <input type="text" id="degree" required />
+
+      <label for="designation">Designation:</label>
+      <input type="text" id="designation" required />
+
+      <label for="skills">Skills/Expertise:</label>
+      <textarea id="skills" rows="2" required></textarea>
+
+      <label for="experience">Currently Working?</label>
+      <div class="radio-group">
+        <input type="radio" id="ey" name="experience" value="yes" required />
+        <label for="yes">Yes</label>
+
+        <input type="radio" id="en" name="experience" value="no" />
+        <label for="no">No</label>
+      </div>
+
+      <label for="prior-experience">Do you have prior experience?</label>
+      <div class="radio-group">
+        <input type="radio" id="yesExp" name="prior-experience" value="yes" required />
+        <label for="yes-exp">Yes</label>
+
+        <input type="radio" id="noExp" name="prior-experience" value="no" />
+        <label for="no-exp">No</label>
+      </div>
+
+      <div class="exp">
+        <label for="exp">Years of Experience:</label>
+        <select id="exp">
+          <option value="0">Select</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4+">4+</option>
+        </select>
+      </div>
+
+      <label for="resume">Upload Resume:</label>
+      <input type="file" id="resume" required />
+
+      <button type="submit">Submit Application</button>
+    </form>
+  </div>
+
+  <script>
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCe9mKD6-clP_Sfip4zSyN1SKUn8G5cays",
+      authDomain: "analogy-64fa2.firebaseapp.com",
+      databaseURL: "https://analogy-64fa2-default-rtdb.firebaseio.com",
+      projectId: "analogy-64fa2",
+      storageBucket: "analogy-64fa2.appspot.com",
+      messagingSenderId: "771776371665",
+      appId: "1:771776371665:web:77c5ce8c1e7017b977def0",
+      measurementId: "G-33XWDFQY89",
+    };
+
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    // Reference to the database and storage
+    var messageRef = firebase.database().ref("messages");
+    var storageRef = firebase.storage().ref(); // Reference to Firebase Storage
+
+    // Validate resume file size
+    document.getElementById("InternshipForm").onsubmit = function (event) {
+      const fileInput = document.getElementById("resume");
+      const file = fileInput.files[0];
+      const maxSizeMB = 2;
+      const maxSizeBytes = maxSizeMB * 1024 * 1024;
+
+      if (file && file.size > maxSizeBytes) {
+        alert("File is too large. Maximum size is " + maxSizeMB + "MB.");
+        event.preventDefault();
+      }
+    };
+
+    // Listen for form submission
+    document
+      .getElementById("InternshipForm")
+      .addEventListener("submit", submitForm);
+
+    async function submitForm(e) {
+      e.preventDefault();
+
+      // Get input values
+      const name = document.getElementById("name").value;
+      const email = document.getElementById("email").value;
+      const phone = document.getElementById("phone").value;
+      const dob = document.getElementById("dob").value;
+      const Currentaddress = document.getElementById("Currentaddress").value;
+      const state = document.getElementById("state").value;
+      const degree = document.getElementById("degree").value;
+      const designation = document.getElementById("designation").value;
+      const skills = document.getElementById("skills").value;
+      const ey = document.getElementById("ey").checked;
+      const en = document.getElementById("en").checked;
+      const yesExp = document.getElementById("yesExp").checked;
+      const noExp = document.getElementById("noExp").checked;
+      const exp = document.getElementById("exp").value;
+
+      // Get the resume file
+      const resumeFile = document.getElementById("resume").files[0];
+
+      // Save the application data to Firebase
+      const messageData = {
+        name: name,
+        email: email,
+        phone: phone,
+        dob: dob,
+        Currentaddress: Currentaddress,
+        state: state,
+        degree: degree,
+        designation: designation,
+        skills: skills,
+        experience: {
+          currentlyWorking: ey,
+          priorExperience: yesExp,
+          years: exp,
+        },
+      };
+
+      try {
+        // Upload the resume file and get the download URL
+        const resumeURL = await uploadResume(resumeFile);
+
+        // Save the message to Firebase, including the resume URL
+        saveMessages({ ...messageData, resumeURL });
+        alert("Application submitted successfully!");
+
+        // Log message to console
+        console.log("Form submitted successfully:", messageData);
+      } catch (error) {
+        console.error("Error submitting application: ", error);
+        alert("There was an error submitting your application.");
+      }
+    }
+
+    async function uploadResume(file) {
+      const resumeRef = storageRef.child(`resumes/${file.name}`); // Use backticks for template literals
+      await resumeRef.put(file); // Upload the file
+      return await resumeRef.getDownloadURL(); // Get the download URL
+    }
+
+    // Save message to Firebase
+    function saveMessages(data) {
+      var newMessageRef = messageRef.push();
+      newMessageRef.set(data);
+    }
+  </script>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section follow-us">
+        <h3>Follow Us</h3>
+        <ul class="social-links">
+          <li>
+            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-section about">
+        <h3>About</h3>
+        <ul>
+          <li><a href="#">What is Ennealogic</a></li>
+          <li><a href="#">Board of Directors</a></li>
+          <li><a href="#">Executive Leadership</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section business-units">
+        <h3>Business Units</h3>
+        <ul>
+          <li><a href="#">Overview</a></li>
+          <li><a href="#">Semiconductors</a></li>
+          <li><a href="#">Smart Devices</a></li>
+          <li><a href="#">Smart Buildings</a></li>
+          <li><a href="#">Smart Appliances</a></li>
+          <li><a href="#">Smart Health</a></li>
+          <li><a href="#">Advanced Industrials</a></li>
+          <li><a href="#">Next Gen Infrastructure</a></li>
+          <li><a href="#">Electrification</a></li>
+          <li><a href="#">AI Infrastructure</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section other-links">
+        <!-- <h3>Business Units</h3> -->
+        <ul>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">Terms & Conditions</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Newsroom</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy;2024 Ennealogic | All Rights Reserved</p>
+    </div>
+  </footer>
+
+
+  <script>
+    // Burger menu functionality
+    const burger = document.querySelector(".burger");
+    const nav = document.querySelector(".nav-links");
+    burger.addEventListener("click", () => {
+      nav.classList.toggle("nav-active");
+      burger.classList.toggle("toggle");
+    });
+
+
+    // Change navbar color on scroll
+    window.addEventListener("scroll", function () {
+      const navbar = document.querySelector(".navbar");
+      const scrollPosition = window.scrollY;
+      const changePoint = 50; // Set a more noticeable scroll threshold
+
+      if (scrollPosition > changePoint) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+
+
+    // Slideshow functionality
+    let slideIndex = 0;
+    showSlides();
+    function showSlides() {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {
+        slideIndex = 1;
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+      setTimeout(showSlides, 4000); // Change image every 4 seconds
+    }
+  </script>
+</body>
+
+</html>

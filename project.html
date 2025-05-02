@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project</title>
+  <link rel="stylesheet" href="/css/project.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .navbar {
+      position: fixed;
+      width: 100%;
+      /* background-color: rgba(255, 255, 255, 0.8); Initial transparent */
+      transition: background-color 0s;
+      /* Smooth transition */
+      z-index: 1000;
+      /* Ensure it stays on top */
+      color: white;
+    }
+
+    .navbar.scrolled {
+      /* background-color: rgba(0, 0, 0, 0.8); Dark background on scroll */
+      /* color: white; */
+      background-color: #061621;
+      /* Change text color if necessary */
+    }
+
+
+
+    .nav-links li a {
+      color: inherit;
+      /* Ensure link color inherits the navbar color */
+      text-decoration: none;
+      padding: 15px;
+      display: inline-block;
+    }
+
+    #imageGallery {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      justify-content: space-evenly;
+    }
+
+    #imageGallery img {
+      width: 100%;
+      aspect-ratio: 1;
+    }
+
+    .image-card {
+      padding: 15px;
+      background-color: #f9f9f9;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.6s ease, box-shadow 0.6s ease;
+      width: 20%;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    .image-card img {
+      width: 100%;
+      /* border-radius: 10px; */
+      margin-bottom: 10px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+      /* display: flex; */
+      /* justify-content: center; */
+      height: 240px;
+    }
+
+    .container {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(135deg, #f5f7fa 0%, #f5f7fa 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background:
+        radial-gradient(circle at top left, rgba(93, 158, 255, 0.1) 0%, transparent 20%),
+        radial-gradient(circle at bottom right, rgba(255, 93, 93, 0.1) 0%, transparent 20%);
+      pointer-events: none;
+    }
+
+    .container h1 {
+      font-size: 42px;
+      color: #2c3e50;
+      margin-bottom: 50px;
+      font-weight: 700;
+      position: relative;
+      display: inline-block;
+      letter-spacing: -1px;
+    }
+
+    .container h1::after {
+      content: '';
+      position: absolute;
+      width: 50%;
+      height: 4px;
+      bottom: -10px;
+      left: 25%;
+      background: linear-gradient(to right, #4e73df, #1cc88a);
+      transition: all 0.4s ease;
+      border-radius: 2px;
+    }
+
+    .container h1:hover::after {
+      width: 70%;
+      background: linear-gradient(to right, #1cc88a, #4e73df);
+    }
+
+    .gallery-container {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: center;
+      gap: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .gallery {
+      display: flex;
+      flex-direction: column;
+      flex: 1 1 calc(25% - 30px);
+      max-width: calc(25% - 30px);
+      background-color: white;
+
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      transition: all 0.4s ease;
+      transform-origin: center;
+      perspective: 1000px;
+    }
+
+    .gallery:hover {
+      transform: scale(1.05) rotateX(5deg);
+      box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+    }
+
+    .gallery img {
+      width: 100%;
+      height: 300px;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+      /* border-radius: 15px 15px 0 0; */
+    }
+
+    .gallery:hover img {
+      transform: scale(1.1);
+    }
+
+    .desc {
+      margin-top: 15px;
+      font-size: 16px;
+      color: #555;
+      padding: 0 15px 15px;
+      font-weight: 500;
+      text-align: center;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 1200px) {
+      .gallery {
+        flex: 1 1 calc(33.333% - 30px);
+        max-width: calc(33.333% - 30px);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .container h1 {
+        font-size: 36px;
+      }
+
+      .gallery {
+        flex: 1 1 calc(50% - 30px);
+        max-width: calc(50% - 30px);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container h1 {
+        font-size: 30px;
+      }
+
+      .gallery {
+        flex: 1 1 100%;
+        max-width: 100%;
+      }
+    }
+
+    /* Gallery Animation */
+    @keyframes galleryEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .gallery {
+      animation: galleryEntrance 0.6s ease forwards;
+      opacity: 0;
+      animation-delay: calc(var(--index) * 0.1s);
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+      .gallery {
+        flex: 1 1 calc(50% - 20px);
+        /* 2 items per row on smaller screens */
+        max-width: calc(50% - 20px);
+        /* Limit max width */
+      }
+    }
+
+    @media (max-width: 480px) {
+      .gallery {
+        flex: 1 1 100%;
+        /* 1 item per row on very small screens */
+        max-width: 100%;
+        /* Full width */
+      }
+    }
+
+    .video-card {
+      width: 20%;
+      padding: 15px;
+      background-color: #f9f9f9;
+
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.6s ease, box-shadow 0.6s ease;
+      text-align: center;
+      cursor: pointer;
+      /* Indicate clickable element */
+    }
+
+    .video-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .video-card video {
+      width: 100%;
+      height: 240px;
+      /* Increased height for larger videos */
+
+      margin-bottom: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .video-card h3 {
+      font-size: 1.2rem;
+      margin: 10px 0;
+      color: #333;
+    }
+
+    .video-card p {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    /* Popup Modal Styles */
+    .modal {
+      display: none;
+      /* Hidden by default */
+      position: fixed;
+      /* Stay in place */
+      z-index: 1000;
+      /* Sit on top */
+      left: 0;
+      top: 0;
+      width: 100%;
+      /* Full width */
+      height: 100%;
+      /* Full height */
+      overflow: auto;
+      /* Enable scroll if needed */
+      background-color: rgba(0, 0, 0, 0.8);
+      /* Black w/ opacity */
+    }
+
+    .modal video {
+      width: 80%;
+      /* Set width of modal video */
+      height: auto;
+      /* Maintain aspect ratio */
+      margin: 5% auto;
+      /* Center video in modal */
+      display: block;
+    }
+
+    .close {
+      color: white;
+      float: right;
+      font-size: 28px;
+      font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+      color: #bbb;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .imageGallery,
+    #videoGallery {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .image-card,
+    .video-card {
+      width: 400px;
+      height: fit-content;
+      position: relative;
+      overflow: hidden;
+      gap: 10px;
+
+      background-color: white;
+      box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.1),
+        0 4px 10px rgba(0, 0, 0, 0.05);
+      transition:
+        transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        box-shadow 0.4s ease,
+        border-radius 0.4s ease;
+      will-change: transform, box-shadow;
+      perspective: 1000px;
+      transform-style: preserve-3d;
+    }
+
+    .image-card::before,
+    .video-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg,
+          rgba(78, 115, 223, 0.1) 0%,
+          rgba(28, 200, 138, 0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .image-card:hover,
+    .video-card:hover {
+      transform:
+        scale(1.05) rotateX(3deg) rotateY(-3deg);
+      box-shadow:
+        0 20px 40px rgba(0, 0, 0, 0.15),
+        0 6px 15px rgba(0, 0, 0, 0.2);
+
+    }
+
+    .image-card:hover::before,
+    .video-card:hover::before {
+      opacity: 1;
+    }
+
+    .image-card img,
+    .video-card video {
+      width: 100%;
+      height: fit-content;
+      object-fit: cover;
+      transition:
+        transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+        filter 0.4s ease;
+    }
+
+    .image-card:hover img,
+    .video-card:hover video {
+      transform: scale(1.1);
+      filter: brightness(1.05) contrast(1.1);
+    }
+
+    .image-card p,
+    .video-card h3,
+    .video-card p {
+      transition:
+        color 0.4s ease,
+        transform 0.4s ease;
+      will-change: color, transform;
+    }
+
+    .image-card:hover p,
+    .video-card:hover h3,
+    .video-card:hover p {
+      color: #4e73df;
+      transform: translateY(-5px);
+    }
+
+    /* Advanced Hover Effect Layer */
+    .image-card::after,
+    .video-card::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at center,
+          rgba(255, 255, 255, 0.2) 0%,
+          transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .image-card:hover::after,
+    .video-card:hover::after {
+      opacity: 1;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 1024px) {
+
+      .image-card,
+      .video-card {
+        transform: scale(0.95);
+      }
+    }
+
+    @media (max-width: 768px) {
+
+      .image-card img,
+      .video-card video {
+        height: 250px;
+      }
+    }
+
+    @media (max-width: 480px) {
+
+      .image-card,
+      .video-card {
+        transform: scale(0.9);
+      }
+    }
+
+    /* Entrance Animation */
+    @keyframes cardEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(30px) scale(0.9);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .image-card,
+    .video-card {
+      animation: cardEntrance 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      opacity: 0;
+      animation-delay: calc(var(--index) * 0.1s);
+    }
+
+    .image-card img,
+    .video-card video {
+      width: 100%;
+      height: auto;
+      /* border-radius: 10px; */
+    }
+
+    @media (max-width: 1024px) {
+      .image-card {
+        width: 30%;
+      }
+
+      .video-card {
+        width: 45%;
+      }
+    }
+
+    @media (max-width: 768px) {
+
+      .image-card,
+      .video-card {
+        width: 48%;
+      }
+
+      .video-card video {
+        height: 200px;
+      }
+    }
+
+    @media (max-width: 480px) {
+
+      .image-card,
+      .video-card {
+        width: 100%;
+      }
+
+      .video-card video {
+        height: 180px;
+      }
+    }
+  </style>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-storage-compat.js"></script>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="logo">
+      <a href="index.html"><img src="/img/logo.png" alt="Logo" /></a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="about.html">About</a></li>
+      <!-- <li><a href="solution.html">Solution</a></li> -->
+      <li><a href="services.html">Services</a></li>
+      <li><a href="WhatWeServe.html">What we Serve</a></li>
+      <li><a href="project.html" class="active">Project</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="internship.html">Internship</a></li>
+    </ul>
+    <div class="burger">
+      <div class="line1"></div>
+      <div class="line2"></div>
+      <div class="line3"></div>
+    </div>
+  </nav>
+
+  <!-- <section class="career-section">
+    <video class="background-video" autoplay muted loop playsinline>
+      <source src="./img/About.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="career-text">
+      <h1 class="career-heading">Project</h1>
+      <h2 class="career-subheading">
+        We believe that the success of each <br />
+        project is the true measure of our achievement.
+      </h2>
+    </div>
+  </section> -->
+
+  <section class="career-section">
+    <video class="background-video" autoplay muted loop playsinline>
+      <source src="./img/About.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="career-text">
+      <h1 class="career-heading fade-in-up">Project</h1>
+      <h2 class="career-subheading fade-in-up delay-1">
+        We believe that the success of each <br />
+        project is the true measure of our achievement.
+      </h2>
+    </div>
+  </section>
+
+
+  <div class="container" id="home">
+    <h1 style="text-align: center">Image Gallery</h1>
+    <div class="image-gallery gallery-container">
+      <div id="imageGallery"></div>
+    </div>
+  </div>
+
+  <div class="container">
+    <h1>Video Gallery</h1>
+    <div class="gallery-container">
+      <div id="videoGallery"></div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-container">
+      <div class="footer-section follow-us">
+        <h3>Follow Us</h3>
+        <ul class="social-links">
+          <li>
+            <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-instagram"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-youtube"></i></a>
+          </li>
+          <li>
+            <a href="#"><i class="fa-brands fa-facebook"></i></a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="footer-section about">
+        <h3>About</h3>
+        <ul>
+          <li><a href="#">What is Ennealogic</a></li>
+          <li><a href="#">Board of Directors</a></li>
+          <li><a href="#">Executive Leadership</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section business-units">
+        <h3>Business Units</h3>
+        <ul>
+          <li><a href="#">Overview</a></li>
+          <li><a href="#">Semiconductors</a></li>
+          <li><a href="#">Smart Devices</a></li>
+          <li><a href="#">Smart Buildings</a></li>
+          <li><a href="#">Smart Appliances</a></li>
+          <li><a href="#">Smart Health</a></li>
+          <li><a href="#">Advanced Industrials</a></li>
+          <li><a href="#">Next Gen Infrastructure</a></li>
+          <li><a href="#">Electrification</a></li>
+          <li><a href="#">AI Infrastructure</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-section other-links">
+        <ul>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">Terms & Conditions</a></li>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Newsroom</a></li>
+          <li><a href="#">FAQs</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>&copy;2024 Ennealogic | All Rights Reserved</p>
+    </div>
+  </footer>
+  <script type="module">
+    // Firebase imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      getDocs,
+      query,
+      orderBy,
+    } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+    // Firebase config and initialization
+    const firebaseConfig = {
+      apiKey: "AIzaSyCe9mKD6-clP_Sfip4zSyN1SKUn8G5cays",
+      authDomain: "analogy-64fa2.firebaseapp.com",
+      projectId: "analogy-64fa2",
+      storageBucket: "analogy-64fa2.appspot.com",
+      messagingSenderId: "771776371665",
+      appId: "1:771776371665:web:77c5ce8c1e7017b977def0",
+      measurementId: "G-33XWDFQY89",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    firebase.initializeApp(firebaseConfig);
+
+    // Display images from Firestore
+    async function displayImages() {
+      try {
+        const imageGallery = document.getElementById("imageGallery");
+        imageGallery.innerHTML = ""; // Clear gallery before populating
+
+        const imagesQuery = query(
+          collection(db, "imagesGallery"),
+          orderBy("createdAt", "desc")
+        );
+        const querySnapshot = await getDocs(imagesQuery);
+
+        querySnapshot.forEach((doc) => {
+          const imageData = doc.data();
+
+          // Create image card container
+          const imageCard = document.createElement("div");
+          imageCard.classList.add("image-card");
+
+          // Create image and caption elements
+          const image = document.createElement("img");
+          image.src = imageData.imageUrl;
+          image.alt = imageData.caption;
+
+          const caption = document.createElement("p");
+          caption.textContent = imageData.caption;
+
+          // Append elements to the image gallery
+          imageCard.appendChild(image);
+          imageCard.appendChild(caption);
+          imageGallery.appendChild(imageCard);
+        });
+      } catch (error) {
+        console.error("Error fetching images:", error);
+      }
+    }
+
+    // Display videos from Firestore
+    async function displayVideos() {
+      try {
+        const videoGallery = document.getElementById("videoGallery");
+        videoGallery.innerHTML = ""; // Clear gallery before populating
+
+        const videosQuery = query(
+          collection(db, "videoGalleryyy"),
+          orderBy("createdAt", "desc")
+        );
+        const querySnapshot = await getDocs(videosQuery);
+
+        querySnapshot.forEach((doc) => {
+          const videoData = doc.data();
+
+          // Create video card container
+          const videoCard = document.createElement("div");
+          videoCard.classList.add("video-card");
+
+          // Create video element
+          const video = document.createElement("video");
+          video.controls = true;
+          video.src = videoData.videoUrl;
+
+          const title = document.createElement("h3");
+          title.textContent = videoData.title;
+
+          const description = document.createElement("p");
+          description.textContent = videoData.description;
+
+          // Append elements to the video gallery
+          videoCard.appendChild(video);
+          videoCard.appendChild(title);
+          videoCard.appendChild(description);
+          videoGallery.appendChild(videoCard);
+        });
+      } catch (error) {
+        console.error("Error fetching videos:", error);
+      }
+    }
+
+    // Call display function when the page loads
+    window.onload = () => {
+      displayImages();
+      displayVideos();
+    };
+  </script>
+  <script>
+    // Burger menu functionality
+    const burger = document.querySelector(".burger");
+    const nav = document.querySelector(".nav-links");
+    burger.addEventListener("click", () => {
+      nav.classList.toggle("nav-active");
+      burger.classList.toggle("toggle");
+    });
+
+    // Change navbar color on scroll
+    window.addEventListener("scroll", function () {
+      const navbar = document.querySelector(".navbar");
+      const scrollPosition = window.scrollY;
+      const changePoint = 50; // Set a more noticeable scroll threshold
+
+      if (scrollPosition > changePoint) {
+        navbar.classList.add("scrolled");
+      } else {
+        navbar.classList.remove("scrolled");
+      }
+    });
+
+    // Slideshow functionality
+    let slideIndex = 0;
+    showSlides();
+    function showSlides() {
+      let i;
+      let slides = document.getElementsByClassName("mySlides");
+      let dots = document.getElementsByClassName("dot");
+      for (i = 0; i < slides.length; i++) {
+        slides[i].style.display = "none";
+      }
+      slideIndex++;
+      if (slideIndex > slides.length) {
+        slideIndex = 1;
+      }
+      for (i = 0; i < dots.length; i++) {
+        dots[i].className = dots[i].className.replace(" active", "");
+      }
+      slides[slideIndex - 1].style.display = "block";
+      dots[slideIndex - 1].className += " active";
+      setTimeout(showSlides, 4000); // Change image every 4 seconds
+    }
+
+
+
+  </script>
+</body>
+
+</html>

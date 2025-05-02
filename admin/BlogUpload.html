@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Write Blog</title>
+    <link rel="stylesheet" href="./css/admin.css">
+    <style>
+        #loader {
+            border: 6px solid #5c9dff;
+            /* Light grey */
+            border-top: 6px solid #3498db;
+            /* Blue */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.6s linear infinite;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Style for the custom popup */
+        .popup {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        .popup-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 5px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            margin-top: 300px;
+            margin-left: 700px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            position: relative;
+
+            /* background-color: white;
+                padding: 20px;
+                border-radius: 5px;
+                text-align: center;
+                max-width: 90%;
+                width: 100%;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                position: relative;
+                margin-top: 70%;
+                margin-left: 20px; */
+        }
+
+        .close-popup {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        #closePopupBtn {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #closePopupBtn:hover {
+            background-color: #2980b9;
+        }
+
+        /* Loader styling */
+        #loader {
+            border: 6px solid #5c9dff;
+            /* Light grey */
+            border-top: 6px solid #3498db;
+            /* Blue */
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 0.6s linear infinite;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+
+        @-webkit-keyframes spin {
+            0% {
+                -webkit-transform: rotate(0deg);
+            }
+
+            100% {
+                -webkit-transform: rotate(360deg);
+            }
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Responsive styling for mobile */
+        @media screen and (max-width: 768px) {
+            .popup-content {
+                background-color: white;
+                padding: 20px;
+                border-radius: 5px;
+                text-align: center;
+                max-width: 90%;
+                width: 100%;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                position: relative;
+                margin-top: 70%;
+                margin-left: 20px;
+            }
+
+
+            #videoBlock h1 {
+                font-size: 24px;
+            }
+
+            form label {
+                font-size: 14px;
+            }
+
+            form input,
+            form button {
+                width: 100%;
+            }
+
+            form button {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="blogBlock">
+        <h1>Write Blog</h1>
+        <form id="uploadBlogForm">
+            <label for="blogMediaUpload">Select Image/Video:</label>
+            <input type="file" id="blogMediaUpload" accept="image/*, video/*" required /><br><br>
+            <label for="blogTitle">Title:</label>
+            <input type="text" id="blogTitle" required /><br><br>
+            <label for="blogTheory">Theory:</label>
+            <textarea style="resize: none;" id="blogTheory" required></textarea><br><br>
+            <button type="submit">Publish Blog</button>
+        </form>
+        <div id="loader" style="display: none;"></div> <!-- Loader -->
+        <!-- <button id="showBlogGalleryBtn">Show Blog Posts</button> -->
+        <div id="blogGallery"></div>
+    </div>
+    <div id="customPopup" class="popup">
+        <div class="popup-content">
+            <span class="close-popup">&times;</span>
+            <p id="popupMessage"></p>
+            <button id="closePopupBtn">Close</button>
+        </div>
+    </div>
+</body>
+
+</html>
